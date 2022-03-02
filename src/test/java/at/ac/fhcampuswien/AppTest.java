@@ -20,9 +20,9 @@ public class AppTest {
     @DisplayName("displayMenuTest")
     public void displayMenuTest() {
 
-        App myApp = new App();
+        Menu menu = new Menu();
 
-        String actual = myApp.displayMenu();
+        String actual = menu.displayMenu();
         String expected = "****************************** \n" +
                 "*  Welcome to NewsApp  * \n" +
                 "****************************** \n" +
