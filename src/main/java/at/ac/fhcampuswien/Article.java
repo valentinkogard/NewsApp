@@ -10,11 +10,9 @@ public class Article {
 
     }
 
-    public String getAuthor (String author) {
-        return author;
-    }
+    public String getAuthor () { return author; }
 
-    public String getTitle (String title) {
+    public String getTitle () {
         return title;
     }
 
