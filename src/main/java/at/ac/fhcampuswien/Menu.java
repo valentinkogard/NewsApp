@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class Menu {
 
-
     private AppController controller;
     private static final String INVALID_INPUT_MESSAGE = "Invalid input! Please enter an existing option!";
     private static final String EXIT_MESSAGE = "Bye bye!";
@@ -21,8 +20,14 @@ public class Menu {
 
     private void handleInput(String input) {
         switch (input.charAt(0)) {
+            case 'a':
+                getTopHeadlinesAustria(controller);
+                break;
+            case 'b':
+                getAllNewsBitcoin(controller);
+                break;
             case 'y':
-
+                getArticleCount(controller);
                 break;
             case 'q':
                 printExitMessage();
@@ -34,11 +39,15 @@ public class Menu {
     }
 
     private void getArticleCount(AppController ctrl) {
-
+        System.out.println("Number of articles: " + ctrl.getArticleCount());
     }
 
     private void getTopHeadlinesAustria(AppController ctrl) {
+        System.out.println(ctrl.getTopHeadlinesAustria());
+    }
 
+    private void getAllNewsBitcoin(AppController ctrl) {
+        System.out.println(ctrl.getAllNewsBitcoin());
     }
 
     private static void printExitMessage() {
@@ -49,9 +58,7 @@ public class Menu {
         System.out.println(INVALID_INPUT_MESSAGE);
     }
 
-
     private static void printMenu(){
-
         System.out.print("****************************** \n" +
                 "*  Welcome to NewsApp  * \n" +
                 "****************************** \n" +
