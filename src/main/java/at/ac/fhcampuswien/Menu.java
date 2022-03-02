@@ -2,6 +2,8 @@ package at.ac.fhcampuswien;
 
 public class Menu {
 
+
+
     public String displayMenu(){
 
         return "****************************** \n" +
