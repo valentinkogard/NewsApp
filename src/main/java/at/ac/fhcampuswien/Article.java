@@ -2,11 +2,11 @@ package at.ac.fhcampuswien;
 
 public class Article {
 
-    private String author = "";
+    private String author;
 
-    private String title = "";
+    private String title;
 
-    public void Atricle (String author, String title) {
+    public Article (String author, String title) {
 
     }
 
