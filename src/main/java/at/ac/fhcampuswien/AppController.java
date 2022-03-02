@@ -7,9 +7,7 @@ public class AppController {
     private List<Article> articles;
 
     public AppController(){
-
         this.articles = generateMockList();
-
     }
 
     public void setArticles(List<Article> articles) {
@@ -17,9 +15,7 @@ public class AppController {
     }
 
     public int getArticleCount() {
-
-        return 0;
-
+        return articles.size();
     }
 
     public List<Article> getTopHeadlinesAustria() {
@@ -27,14 +23,21 @@ public class AppController {
     }
 
     public List<Article> getAllNewsBitcoin() {
-        return articles;
+        return filterList("bitcoin", articles);
     }
 
     protected static List<Article> filterList (String query, List<Article> articles) {
 
         //filter list for specified query...
-        return articles;
+        List<Article> filteredList = new ArrayList<>();
 
+        //iterate through articles and add elements that match query to filteredList
+        for (int i=0; i<articles.size(); i++) {
+            if (articles.get(i).getTitle().contains(query)) {
+                filteredList.add(articles.get(i));
+            }
+        }
+        return filteredList;
     }
 
     private static List<Article> generateMockList() {
@@ -47,8 +50,8 @@ public class AppController {
         Article dummy4 = new Article();
 
         //to test filtering:
-        //Article dummy5 = new Article("Mustermann", "Bitcoin to the moooooon");
-        //Article dummy6 = new Article("Mannmuster", "Blumen");  //nix bitcoin
+        Article dummy5 = new Article("Mustermann", "Bitcoin to the moooooon");
+        Article dummy6 = new Article("Mannmuster", "Blumen");  //nix bitcoin
 
         dummyList.add(dummy1);
         dummyList.add(dummy2);
