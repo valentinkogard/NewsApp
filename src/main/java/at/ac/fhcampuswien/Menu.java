@@ -1,18 +1,36 @@
 package at.ac.fhcampuswien;
 
+import java.util.Scanner;
+
 public class Menu {
 
 
     private AppController controller;
-    private static final String INVALID_INPUT_MESSAGE = "";
-    private static final String EXIT_MESSAGE = "";
+    private static final String INVALID_INPUT_MESSAGE = "Invalid input! Please enter an existing option!";
+    private static final String EXIT_MESSAGE = "Bye bye!";
 
     public void start() {
-        printMenu();
+        Scanner scanner = new Scanner(System.in);
+        while(true){
+            printMenu();
+
+            String input = scanner.next();
+            handleInput(input.toLowerCase());
+        }
     }
 
     private void handleInput(String input) {
+        switch (input.charAt(0)) {
+            case 'y':
 
+                break;
+            case 'q':
+                printExitMessage();
+                System.exit(0);
+                break;
+            default:
+                printInvalidInputMessage();
+        }
     }
 
     private void getArticleCount(AppController ctrl) {
