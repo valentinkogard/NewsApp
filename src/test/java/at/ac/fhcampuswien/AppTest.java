@@ -1,10 +1,33 @@
 package at.ac.fhcampuswien;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.io.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AppTest {
+
+    private PrintStream originalOut;
+    private InputStream originalIn;
+    private ByteArrayOutputStream bos;
+    private PrintStream ps;
+
+    @BeforeEach
+    public void setupStreams() throws IOException {
+        originalOut = System.out;
+        originalIn = System.in;
+
+        bos = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(bos));
+
+        PipedOutputStream pos = new PipedOutputStream();
+        PipedInputStream pis = new PipedInputStream(pos);
+        System.setIn(pis);
+        ps = new PrintStream(pos, true);
+    }
 
     @Test
     public void myFirstTest(){
@@ -19,10 +42,9 @@ public class AppTest {
     @Test
     @DisplayName("displayMenuTest")
     public void displayMenuTest() {
+        Menu myMenu = new Menu();
+        myMenu.start();
 
-        Menu menu = new Menu();
-
-        String actual = menu.displayMenu();
         String expected = "****************************** \n" +
                 "*  Welcome to NewsApp  * \n" +
                 "****************************** \n" +
@@ -32,6 +54,6 @@ public class AppTest {
                 "y: Count articles \n"+
                 "q: quit program\n";
 
-        assertEquals(expected, actual);
+        assertEquals(expected, bos.toString());
     }
 }
