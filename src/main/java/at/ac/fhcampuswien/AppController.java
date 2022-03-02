@@ -33,7 +33,7 @@ public class AppController {
 
         //iterate through articles and add elements that match query to filteredList
         for (int i=0; i<articles.size(); i++) {
-            if (articles.get(i).getTitle().contains(query)) {
+            if (articles.get(i).getTitle().toLowerCase().contains(query.toLowerCase())) {
                 filteredList.add(articles.get(i));
             }
         }
