@@ -85,7 +85,7 @@ public class AppTest {
     }
 
     @Test
-    @DisplayName("CountArticlesTest")
+    @DisplayName("getArticlesCountTest1")
     public void getArticleCountTest() {
         List<Article> refList = new ArrayList<>();
         AppController appController = new AppController();
@@ -98,6 +98,19 @@ public class AppTest {
 
         }
     }
+
+    @Test
+    @DisplayName("getArticleCountTest2")
+    public void getArticleCountTest2() {
+        List<Article> refList = null;
+        AppController appController = new AppController();
+        appController.setArticles(refList);
+
+        assertEquals(0, appController.getArticleCount());
+    }
+
+
+
 
     @Test
     @DisplayName("getTopHeadlinesAustriaTest1")
