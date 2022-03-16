@@ -39,8 +39,13 @@ public class AppController {
         return filterList("bitcoin", articles);
     }
 
+    /**
+     * used to filter a List of Articles with a keyword (query)
+     * @param query
+     * @param articles
+     * @return
+     */
     protected static List<Article> filterList (String query, List<Article> articles) {
-
         //filter list for specified query...
         List<Article> filteredList = new ArrayList<>();
 
