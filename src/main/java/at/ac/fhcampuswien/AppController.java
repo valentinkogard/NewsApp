@@ -22,7 +22,7 @@ public class AppController {
      * method used to get number of articles
      */
     public int getArticleCount() {
-        return articles.size();
+        return this.articles != null ? this.articles.size() : 0;
     }
 
     /**
