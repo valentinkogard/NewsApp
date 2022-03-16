@@ -25,6 +25,9 @@ public class AppController {
         return articles.size();
     }
 
+    /**
+     * method used to get top headlines in austria
+     */
     public List<Article> getTopHeadlinesAustria() {
         return articles;
     }
