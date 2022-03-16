@@ -100,8 +100,8 @@ public class AppTest {
     }
 
     @Test
-    @DisplayName("TopHeadlinesTest")
-    public void getTopHeadlinesAustriaTest(){
+    @DisplayName("getTopHeadlinesAustriaTest1")
+    public void getTopHeadlinesAustriaTest1(){
         List<Article> refList = new ArrayList<>();
         refList.add(new Article("Article", "Author"));
         AppController appController = new AppController();
@@ -111,8 +111,20 @@ public class AppTest {
     }
 
     @Test
-    @DisplayName("BitcoinNewsTest")
-    public void getAllNewsBitcoinTest(){
+    @DisplayName("getTopHeadlinesAustriaTest2")
+    public void getTopHeadlinesAustriaTest2(){
+        List<Article> refList = null;
+        AppController appController = new AppController();
+        appController.setArticles(refList);
+
+        assertEquals(new ArrayList<Article>(), appController.getTopHeadlinesAustria());
+    }
+
+
+
+    @Test
+    @DisplayName("getAllNewsBitcoinTest1")
+    public void getAllNewsBitcoinTest1(){
         List<Article> refList = new ArrayList<>();
         refList.add(new Article("Author0", "Article0 bitcoin"));
         refList.add(new Article("Author1", "Article1"));
