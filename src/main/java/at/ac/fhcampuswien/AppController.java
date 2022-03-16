@@ -18,6 +18,9 @@ public class AppController {
         this.articles = articles;
     }
 
+    /**
+     * method used to get number of articles
+     */
     public int getArticleCount() {
         return articles.size();
     }
