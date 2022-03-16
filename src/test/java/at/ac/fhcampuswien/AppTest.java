@@ -100,8 +100,14 @@ public class AppTest {
     }
 
     @Test
-    void getTopHeadlinesAustriaTest(){
+    @DisplayName("TopHeadlinesTest")
+    public void getTopHeadlinesAustriaTest(){
+        List<Article> refList = new ArrayList<>();
+        refList.add(new Article("Article", "Author"));
+        AppController appController = new AppController();
+        appController.setArticles(refList);
 
+        assertEquals(refList, appController.getTopHeadlinesAustria());
     }
 
     @Test
