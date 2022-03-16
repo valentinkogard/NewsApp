@@ -29,7 +29,8 @@ public class AppController {
      * method used to get top headlines in austria
      */
     public List<Article> getTopHeadlinesAustria() {
-        return articles;
+        if(this.articles != null) return this.articles;
+        return new ArrayList<Article>();
     }
 
     /**
