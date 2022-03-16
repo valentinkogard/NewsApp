@@ -32,6 +32,9 @@ public class AppController {
         return articles;
     }
 
+    /**
+     * method used to get all bitcoin news
+     */
     public List<Article> getAllNewsBitcoin() {
         return filterList("bitcoin", articles);
     }
