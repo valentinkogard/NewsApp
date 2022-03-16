@@ -59,54 +59,28 @@ public class AppTest {
         assertEquals(expected, actual);
     }
 
-    /*
     @Test
-    void welcomeMsg() throws NoSuchMethodException {
-        Method m = Menu.class.getMethod("printMenu");
-
-        String shouldMsg =
-                "****************************** \n" +
-                "*  Welcome to NewsApp  * \n" +
-                "****************************** \n" +
-                "Enter what you want to do: \n"+
-                "a: Get top headlines Austria \n"+
-                "b: Get all news about bitcoin \n"+
-                "y: Count articles \n"+
-                "q: quit program\n";
-
-        String actualInput = bos.toString();
-        assertEquals(shouldMsg, actualInput);
-    }
-    */
-    /*
-    @Test
-    void inputTest(){
-        App myApp = new App();
-        String invalidInput = "Invalid input! Please enter an existing option!";
-        ps.println("k");
-        String actualInput = bos.toString();
-        assertEquals(invalidInput, actualInput);
-    }*/
-
-    @Test
-    void setArticlesTest() throws NoSuchFieldException {
+    @DisplayName("setArticlesTest1")
+    void setArticlesTest1() throws NoSuchFieldException {
         List<Article> refList = new ArrayList<>();
-        refList.add(new Article("Article0", "Author0"));
-        refList.add(new Article("Article1", "Author1"));
-        refList.add(new Article("Article2", "Author2"));
-        refList.add(new Article("Article3", "Author3"));
+        refList.add(new Article("Author0", "Article0"));
+        refList.add(new Article("Author1", "Article1"));
+        refList.add(new Article("Author2", "Article2"));
+        refList.add(new Article("Author3", "Article3"));
 
         AppController appController = new AppController();
         appController.setArticles(refList);
 
         Field field = AppController.class.getDeclaredField("articles");
         field.setAccessible(true);
+
         List<Article> actualField = null;
         try {
             actualField = (List<Article>) field.get(appController);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+
         assertEquals(actualField, refList);
     }
 
