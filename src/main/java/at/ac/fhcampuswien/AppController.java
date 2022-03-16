@@ -76,8 +76,8 @@ public class AppController {
         dummyList.add(dummy2);
         dummyList.add(dummy3);
         dummyList.add(dummy4);
-        //dummyList.articles.add(dummy5);
-        //dummyList.articles.add(dummy6);
+        dummyList.add(dummy5);
+        dummyList.add(dummy6);
 
         return dummyList;
     }

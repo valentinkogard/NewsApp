@@ -9,6 +9,7 @@ public class Menu {
     private static final String EXIT_MESSAGE = "Bye bye!";
 
     public void start() {
+        controller = new AppController();
         Scanner scanner = new Scanner(System.in);
         while(true){
             printMenu();
