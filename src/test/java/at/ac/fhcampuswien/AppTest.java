@@ -135,8 +135,29 @@ public class AppTest {
     }
 
     @Test
-    void filterListTest(){
+    @DisplayName("FilterListTest")
+    public void filterListTest(){
+        String wordToSearch = "test";
 
+        List<Article> refList = new ArrayList<>();
+        refList.add(new Article("Author0", "Article0 test"));
+        refList.add(new Article("Author1", "Article1"));
+        refList.add(new Article("Author2", "Article2"));
+        refList.add(new Article("Author3", "Article3 test"));
+
+        List<Article> refListFiltered = new ArrayList<>();
+        for(Article i : refList){
+            if(i.getTitle().toLowerCase().contains(wordToSearch)){
+                refListFiltered.add(i);
+            }
+        }
+
+        AppController appController = new AppController();
+        appController.setArticles(refList);
+
+        List<Article> filteredList = AppController.filterList(wordToSearch, refList);
+
+        assertEquals(refListFiltered, filteredList);
     }
 
 
