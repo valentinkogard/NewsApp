@@ -135,30 +135,29 @@ public class AppTest {
     }
 
     @Test
-    @DisplayName("BitcoinNewsTest2")
-    public void getAllNewsBitcoinTest2(){
+    @DisplayName("FilterListTest")
+    public void filterListTest(){
+        String wordToSearch = "test";
+
         List<Article> refList = new ArrayList<>();
+        refList.add(new Article("Author0", "Article0 test"));
         refList.add(new Article("Author1", "Article1"));
         refList.add(new Article("Author2", "Article2"));
+        refList.add(new Article("Author3", "Article3 test"));
 
-        List<Article> onlyBitcoinNews = new ArrayList<>();
+        List<Article> refListFiltered = new ArrayList<>();
         for(Article i : refList){
-            if(i.getTitle().toLowerCase().contains("bitcoin")){
-                onlyBitcoinNews.add(i);
+            if(i.getTitle().toLowerCase().contains(wordToSearch)){
+                refListFiltered.add(i);
             }
         }
 
         AppController appController = new AppController();
         appController.setArticles(refList);
 
-        List<Article> bitcoinList = appController.getAllNewsBitcoin();
+        List<Article> filteredList = AppController.filterList(wordToSearch, refList);
 
-        assertEquals(bitcoinList, onlyBitcoinNews);
-    }
-
-    @Test
-    void filterListTest(){
-
+        assertEquals(refListFiltered, filteredList);
     }
 
 
