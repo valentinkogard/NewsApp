@@ -85,8 +85,18 @@ public class AppTest {
     }
 
     @Test
-    void getArticleCountTest(){
+    @DisplayName("CountArticlesTest")
+    public void getArticleCountTest() {
+        List<Article> refList = new ArrayList<>();
+        AppController appController = new AppController();
+        appController.setArticles(refList);
 
+        for (int i = 0; i <= 10; i++) {
+            assertEquals(refList.size(), appController.getArticleCount());
+            refList.add(new Article("Article", "Author"));
+            appController.setArticles(refList);
+
+        }
     }
 
     @Test
