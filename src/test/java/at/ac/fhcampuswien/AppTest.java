@@ -47,7 +47,7 @@ public class AppTest {
 
     @Test
     @DisplayName("setArticlesTest1")
-    void setArticlesTest1() throws NoSuchFieldException {
+    public void setArticlesTest1() throws NoSuchFieldException {
         List<Article> refList = new ArrayList<>();
         refList.add(new Article("Author0", "Article0"));
         refList.add(new Article("Author1", "Article1"));
