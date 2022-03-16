@@ -135,6 +135,28 @@ public class AppTest {
     }
 
     @Test
+    @DisplayName("BitcoinNewsTest2")
+    public void getAllNewsBitcoinTest2(){
+        List<Article> refList = new ArrayList<>();
+        refList.add(new Article("Author1", "Article1"));
+        refList.add(new Article("Author2", "Article2"));
+
+        List<Article> onlyBitcoinNews = new ArrayList<>();
+        for(Article i : refList){
+            if(i.getTitle().toLowerCase().contains("bitcoin")){
+                onlyBitcoinNews.add(i);
+            }
+        }
+
+        AppController appController = new AppController();
+        appController.setArticles(refList);
+
+        List<Article> bitcoinList = appController.getAllNewsBitcoin();
+
+        assertEquals(bitcoinList, onlyBitcoinNews);
+    }
+
+    @Test
     void filterListTest(){
 
     }
