@@ -2,16 +2,10 @@ package at.ac.fhcampuswien;
 
 public class Article {
 
-    private String author = "";
-
-    private String title = "";
-
-    public Article () {
-
-    }
+    private String author;
+    private String title;
 
     public Article (String author, String title) {
-
         this.author=author;
         this.title=title;
     }

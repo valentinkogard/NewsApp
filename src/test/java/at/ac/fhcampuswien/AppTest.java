@@ -1,13 +1,10 @@
 package at.ac.fhcampuswien;
 
 import org.junit.jupiter.api.*;
-
 import java.io.*;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AppTest {
@@ -49,17 +46,6 @@ public class AppTest {
     }
 
     @Test
-    @DisplayName("myFirstTest")
-    void myFirstTest(){
-        App myApp = new App();
-
-        String actual = myApp.welcomeMessage();
-        String expected = "Hello World!";
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
     @DisplayName("setArticlesTest1")
     void setArticlesTest1() throws NoSuchFieldException {
         List<Article> refList = new ArrayList<>();
@@ -95,7 +81,6 @@ public class AppTest {
             assertEquals(refList.size(), appController.getArticleCount());
             refList.add(new Article("Article", "Author"));
             appController.setArticles(refList);
-
         }
     }
 
@@ -108,9 +93,6 @@ public class AppTest {
 
         assertEquals(0, appController.getArticleCount());
     }
-
-
-
 
     @Test
     @DisplayName("getTopHeadlinesAustriaTest1")
@@ -132,8 +114,6 @@ public class AppTest {
 
         assertEquals(new ArrayList<Article>(), appController.getTopHeadlinesAustria());
     }
-
-
 
     @Test
     @DisplayName("getAllNewsBitcoinTest1")
@@ -206,6 +186,4 @@ public class AppTest {
 
         assertEquals(refListFiltered, filteredList);
     }
-
-
 }

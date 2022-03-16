@@ -63,12 +63,10 @@ public class AppController {
 
         List<Article> dummyList = new ArrayList<>();
 
-        Article dummy1 = new Article();
-        Article dummy2 = new Article();
-        Article dummy3 = new Article();
-        Article dummy4 = new Article();
-
-        //to test filtering:
+        Article dummy1 = new Article("Mustermann", "Bitcoin to the moooooon");
+        Article dummy2 = new Article("Mannmuster", "Blumen");
+        Article dummy3 = new Article("Author0", "Article0 bitcoin");
+        Article dummy4 = new Article("Author1", "Article1 bitcoin");
         Article dummy5 = new Article("Mustermann", "Bitcoin to the moooooon");
         Article dummy6 = new Article("Mannmuster", "Blumen");  //nix bitcoin
 
@@ -82,5 +80,3 @@ public class AppController {
         return dummyList;
     }
 }
-
-
