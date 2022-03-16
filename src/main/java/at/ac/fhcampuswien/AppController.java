@@ -10,6 +10,10 @@ public class AppController {
         this.articles = generateMockList();
     }
 
+    /**
+     * method used to set articles
+     * @param articles
+     */
     public void setArticles(List<Article> articles) {
         this.articles = articles;
     }
