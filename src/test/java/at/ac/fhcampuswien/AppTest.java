@@ -71,6 +71,27 @@ public class AppTest {
     }
 
     @Test
+    @DisplayName("setArticlesTest2")
+    public void setArticlesTest2() throws NoSuchFieldException {
+        List<Article> refList = null;
+
+        AppController appController = new AppController();
+        appController.setArticles(refList);
+
+        Field field = AppController.class.getDeclaredField("articles");
+        field.setAccessible(true);
+
+        List<Article> actualField = null;
+        try {
+            actualField = (List<Article>) field.get(appController);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(actualField, refList);
+    }
+
+    @Test
     @DisplayName("getArticlesCountTest1")
     public void getArticleCountTest() {
         List<Article> refList = new ArrayList<>();
@@ -169,6 +190,32 @@ public class AppTest {
         List<Article> refList = new ArrayList<>();
         refList.add(new Article("Author0", "Article0 test"));
         refList.add(new Article("Author1", "Article1"));
+        refList.add(new Article("Author2", "Article2"));
+        refList.add(new Article("Author3", "Article3 test"));
+
+        List<Article> refListFiltered = new ArrayList<>();
+        for(Article i : refList){
+            if(i.getTitle().toLowerCase().contains(wordToSearch)){
+                refListFiltered.add(i);
+            }
+        }
+
+        AppController appController = new AppController();
+        appController.setArticles(refList);
+
+        List<Article> filteredList = AppController.filterList(wordToSearch, refList);
+
+        assertEquals(refListFiltered, filteredList);
+    }
+
+    @Test
+    @DisplayName("FilterListTest2")
+    public void filterListTest2(){
+        String wordToSearch = "abc";
+
+        List<Article> refList = new ArrayList<>();
+        refList.add(new Article("Author0", "Article0"));
+        refList.add(new Article("Author1", "Article1 abc test"));
         refList.add(new Article("Author2", "Article2"));
         refList.add(new Article("Author3", "Article3 test"));
 

@@ -18,9 +18,11 @@ public class Menu extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("main.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
-        stage.setTitle("Hello!");
+        Scene scene = new Scene(fxmlLoader.load(), 600, 500);
+        scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+        stage.setTitle("NewsApp");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
         Button a = (Button) fxmlLoader.getNamespace().get("a");
         a.setOnAction(e -> {
