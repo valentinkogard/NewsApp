@@ -1,0 +1,18 @@
+#pane{
+    -fx-background-image: url("paper.jpg");
+}
+#a{
+    -fx-background-image: url("autFlag2.jpeg");
+}
+#b{
+    -fx-background-image: url("bitcoin.jpg");
+}
+#y{
+    -fx-background-image: url("count.jpg");
+}
+#q{
+    -fx-background-image: url("background.jpg");
+}
+#hbox{
+    -fx-background-image: url("paper.jpg");
+}
