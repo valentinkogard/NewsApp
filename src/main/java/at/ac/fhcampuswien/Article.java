@@ -20,6 +20,6 @@ public class Article {
 
     @Override
     public String toString() {
-        return "Title: " + this.title + "\nAuthor: " + this.author;
+        return "Title: " + this.title + "  Author: " + this.author + "\n";
     }
 }

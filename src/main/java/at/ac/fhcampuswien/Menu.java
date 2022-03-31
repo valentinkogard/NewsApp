@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class Menu extends Application {
 
     private final AppController controller = new AppController();
@@ -18,7 +20,7 @@ public class Menu extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("main.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 500);
+        Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         stage.setTitle("NewsApp");
         stage.setScene(scene);
@@ -74,12 +76,21 @@ public class Menu extends Application {
 
     private void getTopHeadlinesAustria(AppController ctrl) {
         //System.out.println(ctrl.getTopHeadlinesAustria());
-        setOutputText(ctrl.getTopHeadlinesAustria().toString());
+        setOutputText(formatOutput(ctrl.getTopHeadlinesAustria()));
     }
 
     private void getAllNewsBitcoin(AppController ctrl) {
         //System.out.println(ctrl.getAllNewsBitcoin());
-        setOutputText(ctrl.getAllNewsBitcoin().toString());
+        //setOutputText(ctrl.getAllNewsBitcoin().toString());
+        setOutputText(formatOutput(ctrl.getAllNewsBitcoin()));
+    }
+
+    private String formatOutput(List<Article> list){
+        String text = "";
+        for(int i = 0; i < list.size(); i++){
+            text += list.get(i);
+        }
+        return text;
     }
 
     private static void printExitMessage() {
