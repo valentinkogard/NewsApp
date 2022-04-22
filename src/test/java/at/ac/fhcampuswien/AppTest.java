@@ -117,45 +117,44 @@ public class AppTest {
 
     @Test
     @DisplayName("getTopHeadlinesAustriaTest1")
-    public void getTopHeadlinesAustriaTest1(){
+    public void getTopHeadlinesAustriaTest1() throws IOException {
         List<Article> refList = new ArrayList<>();
         refList.add(new Article("Article", "Author"));
         AppController appController = new AppController();
         appController.setArticles(refList);
 
-        assertEquals(refList, appController.getTopHeadlinesAustria());
+        assertEquals(refList, appController.getArticles());
     }
 
     @Test
     @DisplayName("getTopHeadlinesAustriaTest2")
-    public void getTopHeadlinesAustriaTest2(){
+    public void getTopHeadlinesAustriaTest2() throws IOException {
         List<Article> refList = null;
         AppController appController = new AppController();
         appController.setArticles(refList);
 
-        assertEquals(new ArrayList<Article>(), appController.getTopHeadlinesAustria());
+        assertEquals(null, appController.getArticles());
     }
 
     @Test
     @DisplayName("getAllNewsBitcoinTest1")
-    public void getAllNewsBitcoinTest1(){
+    public void getAllNewsBitcoinTest1() throws IOException {
         List<Article> refList = new ArrayList<>();
         refList.add(new Article("Author0", "Article0 bitcoin"));
         refList.add(new Article("Author1", "Article1"));
         refList.add(new Article("Author2", "Article2"));
         refList.add(new Article("Author3", "Article3 bitcoin"));
 
+
         List<Article> onlyBitcoinNews = new ArrayList<>();
-        for(Article i : refList){
-            if(i.getTitle().toLowerCase().contains("bitcoin")){
-                onlyBitcoinNews.add(i);
-            }
-        }
+        onlyBitcoinNews.add(new Article("Author0", "Article0 bitcoin"));
+        onlyBitcoinNews.add(new Article("Author3", "Article3 bitcoin"));
+        NewsResponse nr = new NewsResponse("ok", 2, onlyBitcoinNews);
 
         AppController appController = new AppController();
         appController.setArticles(refList);
 
-        List<Article> bitcoinList = appController.getAllNewsBitcoin();
+        List<Article> bitcoinList = nr.getArticles();
 
         assertEquals(bitcoinList, onlyBitcoinNews);
     }
@@ -168,16 +167,13 @@ public class AppTest {
         refList.add(new Article("Author2", "Article2"));
 
         List<Article> onlyBitcoinNews = new ArrayList<>();
-        for(Article i : refList){
-            if(i.getTitle().toLowerCase().contains("bitcoin")){
-                onlyBitcoinNews.add(i);
-            }
-        }
+        //don't add objects to onlyBitcoinNews
+        NewsResponse nr = new NewsResponse("ok", 2, onlyBitcoinNews);
 
         AppController appController = new AppController();
         appController.setArticles(refList);
 
-        List<Article> bitcoinList = appController.getAllNewsBitcoin();
+        List<Article> bitcoinList = nr.getArticles();
 
         assertEquals(bitcoinList, onlyBitcoinNews);
     }

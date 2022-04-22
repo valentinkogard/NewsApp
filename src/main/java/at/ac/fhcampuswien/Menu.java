@@ -77,8 +77,8 @@ public class Menu extends Application {
         int bitcoinCount = 0;
 
         try {
-            austriaCount = ctrl.getTopHeadlinesAustriaGun().getArticles().size();
-            bitcoinCount = ctrl.getAllNewsBitcoinGun().getArticles().size();
+            austriaCount = ctrl.getTopHeadlinesAustria().getArticles().size();
+            bitcoinCount = ctrl.getAllNewsBitcoin().getArticles().size();
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -92,7 +92,7 @@ public class Menu extends Application {
         //System.out.println(ctrl.getTopHeadlinesAustria());
         //setOutputText(formatOutput(ctrl.getTopHeadlinesAustria()));
         try {
-            setOutputText(formatOutput(ctrl.getTopHeadlinesAustriaGun().getArticles()));
+            setOutputText(formatOutput(ctrl.getTopHeadlinesAustria().getArticles()));
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -104,7 +104,7 @@ public class Menu extends Application {
         //setOutputText(ctrl.getAllNewsBitcoin().toString());
         //setOutputText(formatOutput(ctrl.getAllNewsBitcoin()));
         try {
-            setOutputText(formatOutput(ctrl.getAllNewsBitcoinGun().getArticles()));
+            setOutputText(formatOutput(ctrl.getAllNewsBitcoin().getArticles()));
 
         } catch (IOException ioe) {
             ioe.printStackTrace();

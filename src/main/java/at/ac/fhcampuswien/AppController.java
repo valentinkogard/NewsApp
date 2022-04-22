@@ -21,6 +21,9 @@ public class AppController {
     public void setArticles(List<Article> articles) {
         this.articles = articles;
     }
+    public List<Article> getArticles(){
+        return this.articles;
+    }
 
     /**
      * method used to get number of articles
@@ -32,12 +35,7 @@ public class AppController {
     /**
      * method used to get top headlines in austria
      */
-    public List<Article> getTopHeadlinesAustria() {
-        if(this.articles != null) return this.articles;
-        return new ArrayList<Article>();
-    }
-
-    public NewsResponse getTopHeadlinesAustriaGun() throws IOException {
+    public NewsResponse getTopHeadlinesAustria() throws IOException {
 
         NewsApi newsApi = new NewsApi();
         newsApi.urlBuilder(Endpoint.TOP_HEADLINES.value, "corona", Country.AUSTRIA.value);
@@ -52,11 +50,7 @@ public class AppController {
     /**
      * method used to get all bitcoin news
      */
-    public List<Article> getAllNewsBitcoin() {
-        return filterList("bitcoin", articles);
-    }
-
-    public NewsResponse getAllNewsBitcoinGun() throws IOException {
+    public NewsResponse getAllNewsBitcoin() throws IOException {
 
         NewsApi newsApi = new NewsApi();
         newsApi.urlBuilder(Endpoint.EVERYTHING.value, "bitcoin");

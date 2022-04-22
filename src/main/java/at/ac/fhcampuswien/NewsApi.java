@@ -1,16 +1,7 @@
 package at.ac.fhcampuswien;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import at.ac.fhcampuswien.enumparams.Endpoint;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -19,7 +10,7 @@ import com.google.gson.*;
 
 public class NewsApi {
 
-    private String key = "be9de4191f3745f1bbad19153c6ca440"; //hab selber noch einen key geholt
+    private static final String key = "be9de4191f3745f1bbad19153c6ca440"; //hab selber noch einen key geholt
 
     private String requestedUrl;
 
@@ -28,35 +19,29 @@ public class NewsApi {
         this.requestedUrl = requestedUrl;
     }
 
-    public String getKey() {
-        return key;
-    }
-
     public String getRequestedUrl() {
         return requestedUrl;
     }
 
     public void urlBuilder(String endpoint, String query, String country, String sortBy, String category) {
-        String build = "https://newsapi.org/v2/"+endpoint+"?q="+query+"&country="+country+"&sortBy="+sortBy+"&category"+category+"&apiKey="+this.getKey();
+        String build = "https://newsapi.org/v2/"+endpoint+"?q="+query+"&country="+country+"&sortBy="+sortBy+"&category"+category+"&apiKey="+key;
         setRequestedUrl(build);
     }
 
     public void urlBuilder(String endpoint, String query, String country, String sortBy) {
-        String build = "https://newsapi.org/v2/"+endpoint+"?q="+query+"&country="+country+"&sortBy="+sortBy+"&apiKey="+this.getKey();
+        String build = "https://newsapi.org/v2/"+endpoint+"?q="+query+"&country="+country+"&sortBy="+sortBy+"&apiKey="+key;
         setRequestedUrl(build);
     }
 
     public void urlBuilder(String endpoint, String query, String country) {
-        String build = "https://newsapi.org/v2/"+endpoint+"?q="+query+"&country="+country+"&apiKey="+this.getKey();
+        String build = "https://newsapi.org/v2/"+endpoint+"?q="+query+"&country="+country+"&apiKey="+key;
         setRequestedUrl(build);
     }
 
     public void urlBuilder(String endpoint, String query) {
-        String build = "https://newsapi.org/v2/"+endpoint+"?q="+query+"&apiKey="+this.getKey();
+        String build = "https://newsapi.org/v2/"+endpoint+"?q="+query+"&apiKey="+key;
         setRequestedUrl(build);
     }
-
-
 
     public String run(String urlString) throws IOException {
 
@@ -70,8 +55,6 @@ public class NewsApi {
             return response.body().string();
         }
     }
-
-
 
     public NewsResponse deserializeArticles(String receivedJson) {
         return new Gson().fromJson(receivedJson, NewsResponse.class);
