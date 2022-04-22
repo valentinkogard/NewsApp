@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Menu extends Application {
@@ -71,18 +72,45 @@ public class Menu extends Application {
 
     private void getArticleCount(AppController ctrl) {
         //System.out.println("Number of articles: " + ctrl.getArticleCount());
-        setOutputText("Number of articles: " + ctrl.getArticleCount());
+
+        int austriaCount = 0;
+        int bitcoinCount = 0;
+
+        try {
+            austriaCount = ctrl.getTopHeadlinesAustriaGun().getArticles().size();
+            bitcoinCount = ctrl.getAllNewsBitcoinGun().getArticles().size();
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+        setOutputText("Number of articles: " + (austriaCount + bitcoinCount));
+
     }
 
     private void getTopHeadlinesAustria(AppController ctrl) {
         //System.out.println(ctrl.getTopHeadlinesAustria());
-        setOutputText(formatOutput(ctrl.getTopHeadlinesAustria()));
+        //setOutputText(formatOutput(ctrl.getTopHeadlinesAustria()));
+        try {
+            setOutputText(formatOutput(ctrl.getTopHeadlinesAustriaGun().getArticles()));
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     private void getAllNewsBitcoin(AppController ctrl) {
         //System.out.println(ctrl.getAllNewsBitcoin());
         //setOutputText(ctrl.getAllNewsBitcoin().toString());
-        setOutputText(formatOutput(ctrl.getAllNewsBitcoin()));
+        //setOutputText(formatOutput(ctrl.getAllNewsBitcoin()));
+        try {
+            setOutputText(formatOutput(ctrl.getAllNewsBitcoinGun().getArticles()));
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+
     }
 
     private String formatOutput(List<Article> list){

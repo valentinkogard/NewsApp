@@ -1,5 +1,9 @@
 package at.ac.fhcampuswien;
 
+import at.ac.fhcampuswien.enumparams.Country;
+import at.ac.fhcampuswien.enumparams.Endpoint;
+
+import java.io.IOException;
 import java.util.*;
 
 public class AppController {
@@ -33,11 +37,35 @@ public class AppController {
         return new ArrayList<Article>();
     }
 
+    public NewsResponse getTopHeadlinesAustriaGun() throws IOException {
+
+        NewsApi newsApi = new NewsApi();
+        newsApi.urlBuilder(Endpoint.TOP_HEADLINES.value, "corona", Country.AUSTRIA.value);
+        String receivedJson = newsApi.run(newsApi.getRequestedUrl());
+        newsApi.deserializeArticles(receivedJson);
+
+        NewsResponse newsResponse = newsApi.deserializeArticles(receivedJson);
+
+        return newsResponse;
+    }
+
     /**
      * method used to get all bitcoin news
      */
     public List<Article> getAllNewsBitcoin() {
         return filterList("bitcoin", articles);
+    }
+
+    public NewsResponse getAllNewsBitcoinGun() throws IOException {
+
+        NewsApi newsApi = new NewsApi();
+        newsApi.urlBuilder(Endpoint.EVERYTHING.value, "bitcoin");
+        String receivedJson = newsApi.run(newsApi.getRequestedUrl());
+        newsApi.deserializeArticles(receivedJson);
+
+        NewsResponse newsResponse = newsApi.deserializeArticles(receivedJson);
+
+        return newsResponse;
     }
 
     /**
