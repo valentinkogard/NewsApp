@@ -52,21 +52,11 @@ public class Menu extends Application {
 
     public void handleInput(String input) {
         switch (input.charAt(0)) {
-            case 'a':
-                getTopHeadlinesAustria(controller);
-                break;
-            case 'b':
-                getAllNewsBitcoin(controller);
-                break;
-            case 'y':
-                getArticleCount(controller);
-                break;
-            case 'q':
-                printExitMessage();
-                System.exit(0);
-                break;
-            default:
-                printInvalidInputMessage();
+            case 'a' -> getTopHeadlinesAustria(controller);
+            case 'b' -> getAllNewsBitcoin(controller);
+            case 'y' -> getArticleCount(controller);
+            case 'q' -> printExitMessage();
+            default -> printInvalidInputMessage();
         }
     }
 
@@ -78,14 +68,18 @@ public class Menu extends Application {
 
         try {
             austriaCount = ctrl.getTopHeadlinesAustria().getArticles().size();
+        } catch (IOException e) {
+            austriaCount = 0;
+            //e.printStackTrace();
+        }
+        try {
             bitcoinCount = ctrl.getAllNewsBitcoin().getArticles().size();
-
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        } catch (IOException e) {
+            bitcoinCount = 0;
+            //e.printStackTrace();
         }
 
         setOutputText("Number of articles: " + (austriaCount + bitcoinCount));
-
     }
 
     private void getTopHeadlinesAustria(AppController ctrl) {
@@ -93,9 +87,9 @@ public class Menu extends Application {
         //setOutputText(formatOutput(ctrl.getTopHeadlinesAustria()));
         try {
             setOutputText(formatOutput(ctrl.getTopHeadlinesAustria().getArticles()));
-
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            setOutputText("Couldn't get articles from API...");
+            //ioe.printStackTrace();
         }
     }
 
@@ -105,12 +99,10 @@ public class Menu extends Application {
         //setOutputText(formatOutput(ctrl.getAllNewsBitcoin()));
         try {
             setOutputText(formatOutput(ctrl.getAllNewsBitcoin().getArticles()));
-
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            setOutputText("Couldn't get articles from API...");
+            //ioe.printStackTrace();
         }
-
-
     }
 
     private String formatOutput(List<Article> list){
@@ -123,6 +115,7 @@ public class Menu extends Application {
 
     private static void printExitMessage() {
         System.out.println(EXIT_MESSAGE);
+        System.exit(0);
     }
 
     private static void printInvalidInputMessage() {

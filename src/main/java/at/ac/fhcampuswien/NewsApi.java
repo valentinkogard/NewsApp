@@ -11,9 +11,7 @@ import com.google.gson.*;
 public class NewsApi {
 
     private static final String key = "be9de4191f3745f1bbad19153c6ca440"; //hab selber noch einen key geholt
-
     private String requestedUrl;
-
 
     public void setRequestedUrl(String requestedUrl) {
         this.requestedUrl = requestedUrl;
