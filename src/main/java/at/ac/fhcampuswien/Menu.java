@@ -1,14 +1,25 @@
 package at.ac.fhcampuswien;
 
+import at.ac.fhcampuswien.enumparams.Category;
+import at.ac.fhcampuswien.enumparams.Endpoint;
+import at.ac.fhcampuswien.enumparams.Sortby;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Menu extends Application {
 
@@ -16,7 +27,10 @@ public class Menu extends Application {
     private static final String INVALID_INPUT_MESSAGE = "Invalid input! Please enter an existing option!";
     private static final String EXIT_MESSAGE = "Bye bye!";
 
-    protected Label label;
+    @FXML protected Label label;
+    @FXML protected CheckBox cb;
+    @FXML protected VBox vb;
+    @FXML protected HBox hb;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -44,6 +58,50 @@ public class Menu extends Application {
             handleInput("q");
         });
         label = (Label) fxmlLoader.getNamespace().get("outputText");
+
+        ComboBox categoryBox = (ComboBox) fxmlLoader.getNamespace().get("categoryBox");
+        List<String> categoryList = new ArrayList<>();
+        for (Category cat : Category.values()) {
+            System.out.println(cat);
+            categoryList.add(cat.value);
+        }
+        categoryBox.getItems().addAll(categoryList);
+        categoryBox.setOnAction(e -> {
+            System.out.println("-------------------------");
+            System.out.println(categoryBox);
+        });
+
+        ComboBox enpointBox = (ComboBox) fxmlLoader.getNamespace().get("endpointBox");
+        List<String> endpointList = new ArrayList<>();
+        for (Endpoint end : Endpoint.values()) {
+            System.out.println(end);
+            endpointList.add(end.value);
+        }
+        enpointBox.getItems().addAll(endpointList);
+
+        ComboBox sortbyBox = (ComboBox) fxmlLoader.getNamespace().get("sortbyBox");
+        List<String> sortbyList = new ArrayList<>();
+        for (Sortby by : Sortby.values()) {
+            System.out.println(by);
+            sortbyList.add(by.value);
+        }
+        sortbyBox.getItems().addAll(sortbyList);
+
+        vb = (VBox) fxmlLoader.getNamespace().get("advancedOptions");
+        hb = (HBox) fxmlLoader.getNamespace().get("generalOptions");
+        cb = (CheckBox) fxmlLoader.getNamespace().get("standard");
+        cb.setSelected(true);
+        vb.setVisible(false);
+        cb.setOnAction(e -> {
+            if(cb.isSelected()){
+                vb.setVisible(false);
+                hb.setVisible(true);
+            }
+            else {
+                vb.setVisible(true);
+                hb.setVisible(false);
+            }
+        });
     }
 
     public void setOutputText(String text){

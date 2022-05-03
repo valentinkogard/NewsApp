@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -20,7 +26,9 @@
                   <Image url="@newsIcon.png" />
                </image>
             </ImageView>
-            <Region prefHeight="46.0" prefWidth="374.0" />
+            <Region prefHeight="52.0" prefWidth="181.0" />
+            <CheckBox fx:id="standard" mnemonicParsing="false" prefHeight="25.0" prefWidth="206.0" text="Standard Version" />
+            <Region prefHeight="200.0" prefWidth="200.0" />
             <Text stroke="#997b7b" strokeType="OUTSIDE" strokeWidth="0.0" text="NewsApp">
                <font>
                   <Font size="36.0" />
@@ -28,7 +36,50 @@
             </Text>
          </children>
       </HBox>
-      <HBox fx:id="hbox" alignment="CENTER" prefHeight="54.0" prefWidth="600.0">
+      <VBox fx:id="advancedOptions" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Endpoint:" />
+                  <ComboBox fx:id="endpointBox">
+                      <items>
+                          <FXCollections fx:factory="observableArrayList">
+                             <String fx:value="None" />
+                          </FXCollections>
+                      </items>
+                  </ComboBox>
+                  <Pane prefHeight="30.0" prefWidth="130.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category:" />
+                  <ComboBox fx:id="categoryBox">
+                      <items>
+                          <FXCollections fx:factory="observableArrayList">
+                             <String fx:value="None" />
+                          </FXCollections>
+                      </items>
+                  </ComboBox>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Country:" />
+                  <TextField fx:id="countryText" prefHeight="26.0" prefWidth="100.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Language:" />
+                  <TextField fx:id="languageText" prefHeight="26.0" prefWidth="98.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sortby:" />
+                  <ComboBox fx:id="sortbyBox">
+                      <items>
+                          <FXCollections fx:factory="observableArrayList">
+                              <String fx:value="None" />
+                          </FXCollections>
+                      </items>
+                  </ComboBox>
+                  <Region prefHeight="30.0" prefWidth="72.0" />
+                  <Button fx:id="advancedGo" mnemonicParsing="false" text="GO-&gt;" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <HBox fx:id="generalOptions" alignment="CENTER" prefHeight="54.0" prefWidth="600.0">
          <children>
             <Button fx:id="a" mnemonicParsing="false" prefHeight="26.0" prefWidth="189.0" text="Get top headlines austria" />
             <Button fx:id="b" mnemonicParsing="false" prefHeight="26.0" prefWidth="189.0" text="Get all news about bitcoin" />
@@ -38,7 +89,7 @@
       </HBox>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Label fx:id="outputText" alignment="CENTER" contentDisplay="TOP" layoutX="24.0" layoutY="7.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="309.0" prefWidth="554.0" textOverrun="CENTER_ELLIPSIS">
+            <Label fx:id="outputText" alignment="CENTER" contentDisplay="TOP" layoutX="24.0" layoutY="7.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="259.0" prefWidth="554.0" textOverrun="CENTER_ELLIPSIS">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font>
