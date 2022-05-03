@@ -68,13 +68,13 @@ public class Menu extends Application {
 
         try {
             austriaCount = ctrl.getTopHeadlinesAustria().getArticles().size();
-        } catch (IOException e) {
+        } catch (NewsApiException e) {
             austriaCount = 0;
             //e.printStackTrace();
         }
         try {
             bitcoinCount = ctrl.getAllNewsBitcoin().getArticles().size();
-        } catch (IOException e) {
+        } catch (NewsApiException e) {
             bitcoinCount = 0;
             //e.printStackTrace();
         }
@@ -87,8 +87,8 @@ public class Menu extends Application {
         //setOutputText(formatOutput(ctrl.getTopHeadlinesAustria()));
         try {
             setOutputText(formatOutput(ctrl.getTopHeadlinesAustria().getArticles()));
-        } catch (IOException ioe) {
-            setOutputText("Couldn't get articles from API...");
+        } catch (NewsApiException e) {
+            setOutputText(e.getMessage());
             //ioe.printStackTrace();
         }
     }
@@ -99,8 +99,8 @@ public class Menu extends Application {
         //setOutputText(formatOutput(ctrl.getAllNewsBitcoin()));
         try {
             setOutputText(formatOutput(ctrl.getAllNewsBitcoin().getArticles()));
-        } catch (IOException ioe) {
-            setOutputText("Couldn't get articles from API...");
+        } catch (NewsApiException e) {
+            setOutputText(e.getMessage());
             //ioe.printStackTrace();
         }
     }

@@ -35,7 +35,7 @@ public class AppController {
     /**
      * method used to get top headlines in austria
      */
-    public NewsResponse getTopHeadlinesAustria() throws IOException {
+    public NewsResponse getTopHeadlinesAustria() throws NewsApiException {
 
         NewsApi newsApi = new NewsApi();
         newsApi.urlBuilder(Endpoint.TOP_HEADLINES.value, "corona", Country.AUSTRIA.value);
@@ -50,7 +50,7 @@ public class AppController {
     /**
      * method used to get all bitcoin news
      */
-    public NewsResponse getAllNewsBitcoin() throws IOException {
+    public NewsResponse getAllNewsBitcoin() throws NewsApiException {
 
         NewsApi newsApi = new NewsApi();
         newsApi.urlBuilder(Endpoint.EVERYTHING.value, "bitcoin");

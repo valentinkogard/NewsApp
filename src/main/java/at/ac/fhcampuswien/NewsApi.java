@@ -41,7 +41,7 @@ public class NewsApi {
         setRequestedUrl(build);
     }
 
-    public String run(String urlString) throws IOException {
+    public String run(String urlString) throws NewsApiException {
 
         Request request = new Request.Builder()
                 .url(urlString)
@@ -51,6 +51,8 @@ public class NewsApi {
 
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();
+        } catch (IOException ioe) {
+            throw new NewsApiException();
         }
     }
 
