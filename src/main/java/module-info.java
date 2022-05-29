@@ -6,6 +6,7 @@ module at.ac.fhcampuswien{
     requires javafx.media;
     requires okhttp3;
     requires com.google.gson;
+    requires commons.lang3;
 
     opens at.ac.fhcampuswien to javafx.fxml, com.google.gson;
     exports at.ac.fhcampuswien;

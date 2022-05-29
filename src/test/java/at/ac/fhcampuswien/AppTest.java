@@ -229,4 +229,169 @@ public class AppTest {
 
         assertEquals(refListFiltered, filteredList);
     }
+
+    /**
+     *
+     *
+     * TESTING STREAMS
+     *
+     *
+     */
+
+    @Test
+    @DisplayName("sourceWithMostArticlesTest")
+    public void sourceWithMostArticlesTest() {
+
+        List<Article> refList = new ArrayList<>();
+
+        Source commonSource = new Source("STANDARD");
+        Source otherSource = new Source("other");
+
+        refList.add(new Article(commonSource));
+        refList.add(new Article(commonSource));
+        refList.add(new Article(otherSource));
+        refList.add(new Article(commonSource));
+        refList.add(new Article(otherSource));
+        refList.add(new Article(commonSource));
+
+        String receivedSolution = new StreamFilters().sourceWithMostArticles(refList);
+
+        assertEquals(commonSource.getName(), receivedSolution);
+    }
+
+    @Test
+    @DisplayName("authorWithLongestNameTest")
+    public void authorWithLongestNameTest() {
+
+        List<Article> refList = new ArrayList<>();
+
+        String longestName = "Maximilian Mustermann";
+
+        refList.add(new Article(longestName, "title"));
+        refList.add(new Article("Author100", "title"));
+        refList.add(new Article("Author2", "title"));
+        refList.add(new Article("Author30000000", "title"));
+
+        String receivedSolution = new StreamFilters().authorWithLongestName(refList);
+
+        assertEquals(longestName, receivedSolution);
+    }
+
+    @Test
+    @DisplayName("numberOfArticlesNytTest")
+    public void numberOfArticlesNytTest() {
+
+        List<Article> refList = new ArrayList<>();
+
+        Source nyt = new Source("New York Times");
+        Source something = new Source("something");
+
+        refList.add(new Article(nyt));
+        refList.add(new Article(something));
+        refList.add(new Article(nyt));
+        refList.add(new Article(nyt));
+        refList.add(new Article(something));
+        refList.add(new Article(nyt));
+        refList.add(new Article(something)); //4 articles from Reuters
+
+        long receivedSolution = new StreamFilters().numberOfArticlesNyt(refList);
+
+        assertEquals(4, receivedSolution);
+    }
+
+    @Test
+    @DisplayName("articlesWithHeadlineSub15CharsListTest")
+    public void articlesWithHeadlineSub15CharsListTest() {
+
+        List<Article> refList = new ArrayList<>();
+
+        String headlineSub15 = "Random";
+        String headlineOver15 = "This is a random headline written just to test a function I think we are long enough";
+
+        Article articleSub15 = new Article("Author", headlineSub15);
+        Article articleSub152 = new Article("Author", headlineSub15);
+
+        refList.add(articleSub15);
+        refList.add(new Article("Author", headlineOver15));
+        refList.add(articleSub152);
+        refList.add(new Article("Author", headlineOver15));
+
+        List<Article> expectedList = new ArrayList<>();
+
+        expectedList.add(articleSub15);
+        expectedList.add(articleSub152);
+
+        List<Article> receivedSolution = new StreamFilters().articlesWithHeadlineSub15CharsList(refList);
+
+        assertEquals(expectedList, receivedSolution);
+    }
+
+    @Test
+    @DisplayName("articlesSortedByLengthThenAlphabeticallytest")
+    public void articlesSortedByLengthThenAlphabeticallyTest() {
+
+        List<Article> refList = new ArrayList<>();
+
+        Article article1 = new Article("Author1", "Title1", "Short");
+        Article article2 = new Article("Author2", "Title2", "Average");
+        Article article3 = new Article("Author3", "Title3", "Very Long Description");
+
+        refList.add(article2);
+        refList.add(article3);
+        refList.add(article1);
+
+        List<Article> expectedList = new ArrayList<>();
+
+        expectedList.add(article1);
+        expectedList.add(article2);
+        expectedList.add(article3);
+
+        List<Article> receivedSolution = new StreamFilters().articlesSortedByLengthThenAlphabetically(refList);
+
+        assertEquals(expectedList, receivedSolution);
+    }
+
+    @Test
+    @DisplayName("articlesSortedByLengthThenAlphabeticallytest2")
+    public void articlesSortedByLengthThenAlphabeticallyTest2() {
+
+        List<Article> refList = new ArrayList<>();
+
+        Article article1 = new Article("Author1", "Title1", "Short");
+        Article article2 = new Article("Author2", "Title2", "Average");
+        Article article3 = new Article("Author3", "Title3", "Very Long Description");
+        Article article4 = new Article("Author4", "Title4", "Aery Long Description");
+        Article article5 = new Article("Author5", "Title5", "Bery Long Description");
+
+        refList.add(article4);
+        refList.add(article2);
+        refList.add(article3);
+        refList.add(article1);
+        refList.add(article5);
+
+        List<Article> expectedList = new ArrayList<>();
+
+        expectedList.add(article1);
+        expectedList.add(article2);
+        expectedList.add(article4);
+        expectedList.add(article5);
+        expectedList.add(article3);
+
+        List<Article> receivedSolution = new StreamFilters().articlesSortedByLengthThenAlphabetically(refList);
+
+        assertEquals(expectedList, receivedSolution);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

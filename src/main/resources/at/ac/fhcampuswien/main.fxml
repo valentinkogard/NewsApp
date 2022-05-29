@@ -44,16 +44,16 @@
                   <ComboBox fx:id="endpointBox">
                       <items>
                           <FXCollections fx:factory="observableArrayList">
-                             <String fx:value="None" />
+
                           </FXCollections>
                       </items>
                   </ComboBox>
                   <Pane prefHeight="30.0" prefWidth="130.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category:" />
+                  <Text fx:id="categoryLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Category:" />
                   <ComboBox fx:id="categoryBox">
                       <items>
                           <FXCollections fx:factory="observableArrayList">
-                             <String fx:value="None" />
+                             <String fx:value="" />
                           </FXCollections>
                       </items>
                   </ComboBox>
@@ -61,15 +61,15 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Country:" />
+                  <Text fx:id="countryLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Country:" />
                   <TextField fx:id="countryText" prefHeight="26.0" prefWidth="100.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Language:" />
+                  <Text fx:id="languageLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Language:" />
                   <TextField fx:id="languageText" prefHeight="26.0" prefWidth="98.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sortby:" />
+                  <Text fx:id="sortbyLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Sortby:" />
                   <ComboBox fx:id="sortbyBox">
                       <items>
                           <FXCollections fx:factory="observableArrayList">
-                              <String fx:value="None" />
+                              <String fx:value="" />
                           </FXCollections>
                       </items>
                   </ComboBox>
@@ -83,7 +83,7 @@
          <children>
             <Button fx:id="a" mnemonicParsing="false" prefHeight="26.0" prefWidth="189.0" text="Get top headlines austria" />
             <Button fx:id="b" mnemonicParsing="false" prefHeight="26.0" prefWidth="189.0" text="Get all news about bitcoin" />
-            <Button fx:id="y" mnemonicParsing="false" prefHeight="26.0" prefWidth="126.0" text="Count articles" />
+            <Button fx:id="y" mnemonicParsing="false" prefHeight="26.0" prefWidth="126.0" text="Statistics" />
             <Button fx:id="q" mnemonicParsing="false" text="Quit program" />
          </children>
       </HBox>

@@ -2,9 +2,19 @@ package at.ac.fhcampuswien;
 
 import at.ac.fhcampuswien.enumparams.Country;
 import at.ac.fhcampuswien.enumparams.Endpoint;
+import at.ac.fhcampuswien.enumparams.Language;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
+
+import org.apache.commons.lang3.EnumUtils;
 
 public class AppController {
 
@@ -38,7 +48,7 @@ public class AppController {
     public NewsResponse getTopHeadlinesAustria() throws NewsApiException {
 
         NewsApi newsApi = new NewsApi();
-        newsApi.urlBuilder(Endpoint.TOP_HEADLINES.value, "corona", Country.AUSTRIA.value);
+        newsApi.urlBuilder(Endpoint.TOP_HEADLINES.value, "", Country.AUSTRIA.value);
         String receivedJson = newsApi.run(newsApi.getRequestedUrl());
         newsApi.deserializeArticles(receivedJson);
 
@@ -61,6 +71,71 @@ public class AppController {
 
         return newsResponse;
     }
+
+    public NewsResponse getCustomHeadlines(FXMLLoader fxmlLoader) throws NewsApiException {
+
+        NewsApi newsApi = new NewsApi();
+        String endpoint, category, sortBy, country, language = "";
+
+        ComboBox endpointBox = (ComboBox) fxmlLoader.getNamespace().get("endpointBox");
+        try {
+            endpoint = endpointBox.getSelectionModel().getSelectedItem().toString();
+        } catch (NullPointerException n) {
+            throw new NewsApiException("Please select endpoint!");
+        } catch (Exception e) {
+            throw new NewsApiException(e.getMessage());
+        }
+
+        ComboBox categoryBox = (ComboBox) fxmlLoader.getNamespace().get("categoryBox");
+        category = categoryBox.getSelectionModel().getSelectedItem().toString();
+        TextField countryText = (TextField) fxmlLoader.getNamespace().get("countryText");
+        country = countryText.getText();
+
+
+        ComboBox sortbyBox = (ComboBox) fxmlLoader.getNamespace().get("sortbyBox");
+        sortBy = sortbyBox.getSelectionModel().getSelectedItem().toString();
+        TextField languageText = (TextField) fxmlLoader.getNamespace().get("languageText");
+        language = languageText.getText();
+
+        if(EnumUtils.isValidEnum(Country.class, country)) {
+
+        //if (enumContains(Country.values(), country)){
+            if(endpoint.equals(Endpoint.TOP_HEADLINES.value)) newsApi.urlBuilderCustomTopHeadlines(endpoint, country, category);
+            else if (endpoint.equals(Endpoint.EVERYTHING.value)) newsApi.urlBuilderCustomEverything(endpoint, language, sortBy);
+        } else {
+            throw new NewsApiException("Enter valid language");
+        }
+
+
+
+        String receivedJson = newsApi.run(newsApi.getRequestedUrl());
+        NewsResponse newsResponse = newsApi.deserializeArticles(receivedJson);
+
+        System.out.println(endpoint+category+sortBy+country+language);
+
+        return newsResponse;
+    }
+/*
+    private <T extends Enum<T>> boolean enumContains(Class enumText, String check) {
+        //List<Enum> enumList =  Arrays.asList(enumText);
+        //List list = EnumUtils.getEnumList(Country.class);
+        //String xyz = EnumUtils.getEnumList(Country.class).get(0).value;
+        //Category cat : Category.values()
+
+        for(int i = 0; i < enumText.; i++) {
+            if(EnumUtils.getEnumList(enumText.class).get(i).value.equals(check)) {
+                return true;
+            }
+        }
+        return false;
+        //EnumUtils.isValidEnum(enumText.cl)
+
+
+    }
+*/
+
+
+
 
     /**
      * used to filter a List of Articles with a keyword (query)

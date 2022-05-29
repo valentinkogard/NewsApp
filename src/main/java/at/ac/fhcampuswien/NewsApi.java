@@ -1,6 +1,7 @@
 package at.ac.fhcampuswien;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -25,6 +26,17 @@ public class NewsApi {
         String build = "https://newsapi.org/v2/"+endpoint+"?q="+query+"&country="+country+"&sortBy="+sortBy+"&category"+category+"&apiKey="+key;
         setRequestedUrl(build);
     }
+
+    public void urlBuilderCustomTopHeadlines(String endpoint, String country, String category) {
+        String build = "https://newsapi.org/v2/"+endpoint+"?q="+""+"&country="+country+"&category="+category+"&apiKey="+key;
+        setRequestedUrl(build);
+    }
+
+    public void urlBuilderCustomEverything(String endpoint, String language, String sortBy) {
+        String build = "https://newsapi.org/v2/"+endpoint+"?q="+"&language="+language+"&sortBy="+sortBy+"&apiKey="+key;
+        setRequestedUrl(build);
+    }
+
 
     public void urlBuilder(String endpoint, String query, String country, String sortBy) {
         String build = "https://newsapi.org/v2/"+endpoint+"?q="+query+"&country="+country+"&sortBy="+sortBy+"&apiKey="+key;
@@ -52,12 +64,20 @@ public class NewsApi {
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();
         } catch (IOException ioe) {
-            throw new NewsApiException();
+            System.out.println(ioe.getMessage());
+            throw new NewsApiException("No internet connection available!");
         }
     }
 
-    public NewsResponse deserializeArticles(String receivedJson) {
-        return new Gson().fromJson(receivedJson, NewsResponse.class);
+    public NewsResponse deserializeArticles(String receivedJson) throws NewsApiException {
+        //return new Gson().fromJson(receivedJson, NewsResponse.class);
+
+        try {
+            return new Gson().fromJson(receivedJson, NewsResponse.class);
+        } catch (JsonSyntaxException n) {
+            n.printStackTrace();
+            throw new NewsApiException("Articles could not be processed successfully");
+        }
 
         /*System.out.println(newsResponse.getStatus());
         System.out.println(newsResponse.getTotalResults());
