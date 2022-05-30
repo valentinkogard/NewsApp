@@ -327,6 +327,28 @@ public class AppTest {
     }
 
     @Test
+    @DisplayName("articlesWithHeadlineSub15CharsListTest2")
+    public void articlesWithHeadlineSub15CharsListTest2() {
+
+        List<Article> refList = new ArrayList<>();
+
+        String headlineOver15 = "This is a random headline written just to test a function I think we are long enough";
+
+        Article articleOver15 = new Article("Author", headlineOver15);
+
+        refList.add(articleOver15);
+        refList.add(articleOver15);
+        refList.add(articleOver15);
+        refList.add(articleOver15);
+
+        List<Article> expectedList = new ArrayList<>();
+
+        List<Article> receivedSolution = new StreamFilters().articlesWithHeadlineSub15CharsList(refList);
+
+        assertEquals(expectedList, receivedSolution);
+    }
+
+    @Test
     @DisplayName("articlesSortedByLengthThenAlphabeticallytest")
     public void articlesSortedByLengthThenAlphabeticallyTest() {
 

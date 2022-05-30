@@ -3,6 +3,7 @@ package at.ac.fhcampuswien;
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import at.ac.fhcampuswien.enumparams.Endpoint;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -22,35 +23,17 @@ public class NewsApi {
         return requestedUrl;
     }
 
-    public void urlBuilder(String endpoint, String query, String country, String sortBy, String category) {
-        String build = "https://newsapi.org/v2/"+endpoint+"?q="+query+"&country="+country+"&sortBy="+sortBy+"&category"+category+"&apiKey="+key;
-        setRequestedUrl(build);
-    }
-
-    public void urlBuilderCustomTopHeadlines(String endpoint, String country, String category) {
-        String build = "https://newsapi.org/v2/"+endpoint+"?q="+""+"&country="+country+"&category="+category+"&apiKey="+key;
-        setRequestedUrl(build);
-    }
-
-    public void urlBuilderCustomEverything(String endpoint, String language, String sortBy) {
-        String build = "https://newsapi.org/v2/"+endpoint+"?q="+"&language="+language+"&sortBy="+sortBy+"&apiKey="+key;
-        setRequestedUrl(build);
-    }
-
-
-    public void urlBuilder(String endpoint, String query, String country, String sortBy) {
-        String build = "https://newsapi.org/v2/"+endpoint+"?q="+query+"&country="+country+"&sortBy="+sortBy+"&apiKey="+key;
-        setRequestedUrl(build);
-    }
-
-    public void urlBuilder(String endpoint, String query, String country) {
-        String build = "https://newsapi.org/v2/"+endpoint+"?q="+query+"&country="+country+"&apiKey="+key;
-        setRequestedUrl(build);
-    }
-
-    public void urlBuilder(String endpoint, String query) {
-        String build = "https://newsapi.org/v2/"+endpoint+"?q="+query+"&apiKey="+key;
-        setRequestedUrl(build);
+    public void urlBuilder(String endpoint, String category, String country, String query, String language, String sortBy) throws NewsApiException {
+        if(endpoint.equals(Endpoint.TOP_HEADLINES.value)){
+            String build = "https://newsapi.org/v2/"+endpoint+"?category="+category+"&country="+country+"&apiKey="+key;
+            setRequestedUrl(build);
+        }
+        else if(endpoint.equals(Endpoint.EVERYTHING.value)){
+            String build = "https://newsapi.org/v2/"+endpoint+"?q="+query+"&language="+language+"&sortBy="+sortBy+"&apiKey="+key;
+            setRequestedUrl(build);
+        } else {
+            throw new NewsApiException("Endpoint not known in urlBuilder");
+        }
     }
 
     public String run(String urlString) throws NewsApiException {
@@ -64,65 +47,18 @@ public class NewsApi {
         try (Response response = client.newCall(request).execute()) {
             return response.body().string();
         } catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
+            //System.out.println(ioe.getMessage());
             throw new NewsApiException("No internet connection available!");
         }
     }
 
     public NewsResponse deserializeArticles(String receivedJson) throws NewsApiException {
-        //return new Gson().fromJson(receivedJson, NewsResponse.class);
-
         try {
             return new Gson().fromJson(receivedJson, NewsResponse.class);
         } catch (JsonSyntaxException n) {
             n.printStackTrace();
             throw new NewsApiException("Articles could not be processed successfully");
         }
-
-        /*System.out.println(newsResponse.getStatus());
-        System.out.println(newsResponse.getTotalResults());
-        System.out.println(newsResponse.getArticles());
-        System.out.println(newsResponse.getArticles().get(0).getDescription());*/
-
-        /*JsonParser parser = new JsonParser();
-        JsonObject convertedObject = (JsonObject) parser.parse(String.valueOf(receivedJson));
-        NewsResponse newsResponse = new Gson().fromJson(convertedObject, NewsResponse.class);*/
-
-        /*JsonParser parser = new JsonParser();
-        JsonObject convertedObject = (JsonObject) parser.parse(receivedJson);
-
-        NewsResponse newsResponse = new NewsResponse();
-        newsResponse.setStatus(convertedObject.get("status").toString());
-        newsResponse.setTotalResults(convertedObject.get("totalResults").getAsInt());
-
-        JsonArray jsonArray = convertedObject.getAsJsonArray("articles");
-        int length = jsonArray.size();
-
-       ArrayList<String> articles = new ArrayList<>(); //STRING!!!!!!!!
-
-        ArrayList<Article> articleList = new ArrayList<>();
-
-        for (int i=0; i<length; i++){
-            JsonObject jsonObject = (JsonObject) jsonArray.get(i);
-            articles.add(jsonObject.toString());
-            Article newArticle = new Article(
-                    jsonObject.get("author").toString(),
-                    jsonObject.get("title").toString());
-
-            articleList.add(newArticle);
-
-        }
-
-        newsResponse.setArticles(articleList);
-
-        System.out.println(receivedJson);
-        System.out.println(newsResponse.getStatus());
-        System.out.println(newsResponse.getTotalResults());
-        System.out.println(length);
-        System.out.println(articles.get(3));
-        System.out.println(articleList.get(3));
-        System.out.println(articleList.get(0));
-        System.out.println(articleList.get(19).getTitle());*/
     }
 
 }

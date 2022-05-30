@@ -1,24 +1,14 @@
 package at.ac.fhcampuswien;
 
-import at.ac.fhcampuswien.enumparams.Country;
-import at.ac.fhcampuswien.enumparams.Endpoint;
-import at.ac.fhcampuswien.enumparams.Language;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import at.ac.fhcampuswien.enumparams.*;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.IOException;
 import java.util.*;
 import java.util.List;
-
-import org.apache.commons.lang3.EnumUtils;
 
 public class AppController {
 
     private List<Article> articles;
+    private NewsApi newsApi = new NewsApi();
 
     public AppController(){
         this.articles = generateMockList();
@@ -47,13 +37,17 @@ public class AppController {
      */
     public NewsResponse getTopHeadlinesAustria() throws NewsApiException {
 
-        NewsApi newsApi = new NewsApi();
-        newsApi.urlBuilder(Endpoint.TOP_HEADLINES.value, "", Country.AUSTRIA.value);
+        //NewsApi newsApi = new NewsApi();
+        //newsApi.urlBuilder(Endpoint.TOP_HEADLINES.value, "", Country.AUSTRIA.value);
+        newsApi.urlBuilder(Endpoint.TOP_HEADLINES.value, "", Country.AUSTRIA.value, null, null, null);
         String receivedJson = newsApi.run(newsApi.getRequestedUrl());
         newsApi.deserializeArticles(receivedJson);
 
         NewsResponse newsResponse = newsApi.deserializeArticles(receivedJson);
 
+        if(newsResponse.getArticles().size() == 0){
+            throw new NewsApiException("No articles available");
+        }
         return newsResponse;
     }
 
@@ -62,80 +56,133 @@ public class AppController {
      */
     public NewsResponse getAllNewsBitcoin() throws NewsApiException {
 
-        NewsApi newsApi = new NewsApi();
-        newsApi.urlBuilder(Endpoint.EVERYTHING.value, "bitcoin");
+        String query = "bitcoin";
+        //NewsApi newsApi = new NewsApi();
+        //newsApi.urlBuilder(Endpoint.EVERYTHING.value, "bitcoin");
+        newsApi.urlBuilder(Endpoint.EVERYTHING.value, null, null, query, "", "");
         String receivedJson = newsApi.run(newsApi.getRequestedUrl());
         newsApi.deserializeArticles(receivedJson);
 
         NewsResponse newsResponse = newsApi.deserializeArticles(receivedJson);
 
+        if(newsResponse.getArticles().size() == 0){
+            throw new NewsApiException("No articles available for query: " + query);
+        }
         return newsResponse;
     }
 
-    public NewsResponse getCustomHeadlines(FXMLLoader fxmlLoader) throws NewsApiException {
+    /**
+     * checks if entry is listed in corresponding enum
+     * @param enums
+     * @param check
+     * @return
+     */
+    private String getValidEntry(String enums, String check) {
+        switch (enums){
+            case "Category":
+                for(Category a : Category.values()){
+                    if(a.value.equals(check)) return check;
+                    if(a.toString().equals(check)) return a.value;
+                }
+                break;
+            case "Country":
+                for(Country a : Country.values()){
+                    if(a.value.equals(check)) return check;
+                    if(a.toString().equals(check)) return a.value;
+                }
+                break;
+            case "Endpoint":
+                for(Endpoint a : Endpoint.values()){
+                    if(a.value.equals(check)) return check;
+                    if(a.toString().equals(check)) return a.value;
+                }
+                break;
+            case "Language":
+                for(Language a : Language.values()){
+                    if(a.value.equals(check)) return check;
+                    if(a.toString().equals(check)) return a.value;
+                }
+                break;
+            case "Sortby":
+                for(Sortby a : Sortby.values()){
+                    if(a.value.equals(check)) return check;
+                    if(a.toString().equals(check)) return a.value;
+                }
+                break;
+            default:
+                return "";
+        }
+        return "";
+    }
 
-        NewsApi newsApi = new NewsApi();
-        String endpoint, category, sortBy, country, language = "";
+    /**
+     * uses the endpoint "top-headlines" and checks if input is valid
+     * @param menu
+     * @throws NewsApiException
+     */
+    private void reqTopHeadlines(Menu menu) throws NewsApiException {
+        String country = menu.countryText.getText();
+        String category = menu.categoryBox.getSelectionModel().getSelectedItem().toString();
 
-        ComboBox endpointBox = (ComboBox) fxmlLoader.getNamespace().get("endpointBox");
+        country = getValidEntry("Country", country);
+        category = getValidEntry("Category", category);
+
+        if(country.equals("") || category.equals("")){
+            throw new NewsApiException("enter valid request");
+        }
+        //newsApi.urlBuilderCustomTopHeadlines("top-headlines", country, category);
+        newsApi.urlBuilder(Endpoint.TOP_HEADLINES.value, category, country, null, null, null);
+    }
+
+    /**
+     * uses the endpoint "everything" and checks if input is valid
+     * @param menu
+     * @throws NewsApiException
+     */
+    private void reqEverything(Menu menu) throws NewsApiException {
+        String language = menu.languageText.getText();
+        String sortBy = menu.sortbyBox.getSelectionModel().getSelectedItem().toString();
+        String q = menu.qText.getText();
+
+        language = getValidEntry("Language", language);
+        sortBy = getValidEntry("Sortby", sortBy);
+
+        if(language.equals("") || sortBy.equals("") || q.equals("")){
+            throw new NewsApiException("enter valid request");
+        }
+        //newsApi.urlBuilderCustomEverything("everything", q, language, sortBy);
+        newsApi.urlBuilder(Endpoint.EVERYTHING.value, null, null, q, language, sortBy);
+    }
+
+    /**
+     * build url using params entered by user
+     * @param menu
+     * @return
+     * @throws NewsApiException
+     */
+    public NewsResponse getCustomHeadlines(Menu menu) throws NewsApiException {
+
+        //NewsApi newsApi = new NewsApi();
+        String endpoint = "";
         try {
-            endpoint = endpointBox.getSelectionModel().getSelectedItem().toString();
+            endpoint = menu.endpointBox.getSelectionModel().getSelectedItem().toString();
         } catch (NullPointerException n) {
             throw new NewsApiException("Please select endpoint!");
         } catch (Exception e) {
             throw new NewsApiException(e.getMessage());
         }
 
-        ComboBox categoryBox = (ComboBox) fxmlLoader.getNamespace().get("categoryBox");
-        category = categoryBox.getSelectionModel().getSelectedItem().toString();
-        TextField countryText = (TextField) fxmlLoader.getNamespace().get("countryText");
-        country = countryText.getText();
-
-
-        ComboBox sortbyBox = (ComboBox) fxmlLoader.getNamespace().get("sortbyBox");
-        sortBy = sortbyBox.getSelectionModel().getSelectedItem().toString();
-        TextField languageText = (TextField) fxmlLoader.getNamespace().get("languageText");
-        language = languageText.getText();
-
-        if(EnumUtils.isValidEnum(Country.class, country)) {
-
-        //if (enumContains(Country.values(), country)){
-            if(endpoint.equals(Endpoint.TOP_HEADLINES.value)) newsApi.urlBuilderCustomTopHeadlines(endpoint, country, category);
-            else if (endpoint.equals(Endpoint.EVERYTHING.value)) newsApi.urlBuilderCustomEverything(endpoint, language, sortBy);
-        } else {
-            throw new NewsApiException("Enter valid language");
-        }
-
-
+        if(endpoint.equals(Endpoint.TOP_HEADLINES.value)) reqTopHeadlines(menu);
+        else if(endpoint.equals(Endpoint.EVERYTHING.value)) reqEverything(menu);
 
         String receivedJson = newsApi.run(newsApi.getRequestedUrl());
         NewsResponse newsResponse = newsApi.deserializeArticles(receivedJson);
 
-        System.out.println(endpoint+category+sortBy+country+language);
-
+        if(newsResponse.getArticles().size() == 0){
+            throw new NewsApiException("No articles available");
+        }
         return newsResponse;
     }
-/*
-    private <T extends Enum<T>> boolean enumContains(Class enumText, String check) {
-        //List<Enum> enumList =  Arrays.asList(enumText);
-        //List list = EnumUtils.getEnumList(Country.class);
-        //String xyz = EnumUtils.getEnumList(Country.class).get(0).value;
-        //Category cat : Category.values()
-
-        for(int i = 0; i < enumText.; i++) {
-            if(EnumUtils.getEnumList(enumText.class).get(i).value.equals(check)) {
-                return true;
-            }
-        }
-        return false;
-        //EnumUtils.isValidEnum(enumText.cl)
-
-
-    }
-*/
-
-
-
 
     /**
      * used to filter a List of Articles with a keyword (query)
