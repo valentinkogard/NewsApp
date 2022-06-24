@@ -15,7 +15,13 @@ public class Article {
     private String publishedAt;
     private String content;
 
+    public String getUrl() {
+        return url;
+    }
 
+    public String getUrlToImage() {
+        return urlToImage;
+    }
 
     public Article (String author, String title) {
         this.author=author;
