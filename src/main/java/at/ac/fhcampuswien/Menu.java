@@ -15,12 +15,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Menu extends Application {
 
-    private final AppController controller = new AppController();
+    private final AppController controller = AppController.getInstance();
     private static final String INVALID_INPUT_MESSAGE = "Invalid input! Please enter an existing option!";
     private static final String EXIT_MESSAGE = "Bye bye!";
 
@@ -43,9 +44,15 @@ public class Menu extends Application {
     @FXML protected Text qLabel;
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
+        //!!!!!!!!!!!!!!!!!SINGELTON???????!!!!!!!!!!!!!!!!1
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("main.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         stage.setTitle("NewsApp");
         stage.setScene(scene);
@@ -196,7 +203,7 @@ public class Menu extends Application {
     private void getArticleCount(AppController ctrl) throws NewsApiException {
         int count = ctrl.getArticles().size();
         List<Article> articleList = ctrl.getArticles();
-        StreamFilters streamFilter = new StreamFilters();
+        StreamFilters streamFilter = StreamFilters.getInstance();
         try{
             setOutputText("Number of articles: " + count + "\n" +
                     "Most articles provided by: " + streamFilter.sourceWithMostArticles(articleList) + "\n" +
@@ -217,7 +224,7 @@ public class Menu extends Application {
 
     private void getAllNewsBitcoin(AppController ctrl) throws NewsApiException {
         List<Article> articles = ctrl.getAllNewsBitcoin().getArticles();
-        setOutputText(formatOutput(new StreamFilters().articlesSortedByLengthThenAlphabetically(articles)));
+        setOutputText(formatOutput(StreamFilters.getInstance().articlesSortedByLengthThenAlphabetically(articles)));
         ctrl.setArticles(articles);
     }
 

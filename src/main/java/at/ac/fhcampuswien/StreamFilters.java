@@ -8,6 +8,17 @@ import java.util.stream.Stream;
 
 public class StreamFilters {
 
+    private static StreamFilters instance = null;
+
+    private StreamFilters(){}
+
+    public static StreamFilters getInstance(){
+        if(instance == null){
+            instance = new StreamFilters();
+        }
+        return instance;
+    }
+
     public String sourceWithMostArticles(List articleList) {
         Stream<Article> articleStream = articleList.stream();
 

@@ -4,10 +4,6 @@ public class Article {
 
     private String author;
     private String title;
-
-    //additional attributes
-
-    //private String source;
     private Source source;
     private String description;
     private String url;
@@ -15,32 +11,61 @@ public class Article {
     private String publishedAt;
     private String content;
 
-
-
-    public Article (String author, String title) {
-        this.author=author;
-        this.title=title;
+    private Article(Builder builder){
+        this.author = builder.author;
+        this.title = builder.title;
+        this.source = builder.source;
+        this.description = builder.description;
+        this.url = builder.url;
+        this.urlToImage = builder.urlToImage;
+        this.publishedAt = builder.publishedAt;
+        this.content = builder.content;
     }
 
-    public Article (Source source) {
-        this.source = source;
-    }
+    public static class Builder{
+        private String author;
+        private String title;
+        private Source source;
+        private String description;
+        private String url;
+        private String urlToImage;
+        private String publishedAt;
+        private String content;
 
-    public Article (String author, String title, String description) {
-        this.author=author;
-        this.title=title;
-        this.description=description;
+        public Builder(String author, String title){
+            this.author = author;
+            this.title = title;
+            this.source = source;
+            this.publishedAt = publishedAt;
+        }
+        public Builder source(Source source){
+            this.source = source;
+            return this;
+        }
+        public Builder publishedAt(String publishedAt){
+            this.publishedAt = publishedAt;
+            return this;
+        }
+        public Builder description(String description){
+            this.description = description;
+            return this;
+        }
+        public Builder content(String content){
+            this.content = content;
+            return this;
+        }
+        public Builder url(String url){
+            this.url = url;
+            return this;
+        }
+        public Builder urlToImage(String urlToImage){
+            this.urlToImage = urlToImage;
+            return this;
+        }
+        public Article build(){
+            return new Article(this);
+        }
     }
-
-    /*public Article(String author, String title, String name, String description, String url, String urlToImage, String publishedAt, String content) {
-        super();
-        this.name=name;
-        this.description=description;
-        this.url=url;
-        this.urlToImage=urlToImage;
-        this.publishedAt=publishedAt;
-        this.content=content;
-    }*/
 
     public Source getSource() {
         return source;

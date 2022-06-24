@@ -8,10 +8,18 @@ import java.util.List;
 public class AppController {
 
     private List<Article> articles;
-    private NewsApi newsApi = new NewsApi();
+    private NewsApi newsApi = NewsApi.getInstance();
+    private static AppController instance = null;
 
-    public AppController(){
+    private AppController(){
         this.articles = generateMockList();
+    }
+
+    public static AppController getInstance(){
+        if(instance == null){
+            instance = new AppController();
+        }
+        return instance;
     }
 
     /**
@@ -207,12 +215,17 @@ public class AppController {
 
         List<Article> dummyList = new ArrayList<>();
 
-        Article dummy1 = new Article("Mustermann", "Bitcoin to the moooooon");
-        Article dummy2 = new Article("Mannmuster", "Blumen");
-        Article dummy3 = new Article("Author0", "Article0 bitcoin");
-        Article dummy4 = new Article("Author1", "Article1 bitcoin");
-        Article dummy5 = new Article("Mustermann", "Bitcoin to the moooooon");
-        Article dummy6 = new Article("Mannmuster", "Blumen");  //nix bitcoin
+        Article dummy1 = new Article.Builder("Mustermann", "Bitcoin to the moooooon")
+                .description("dhsflasgd")
+                .publishedAt("2022-06-24")
+                .source(new Source.Builder().id("xyz").name("abc").build())
+                .url("www.hallowelt.com")
+                .build();
+        Article dummy2 = new Article.Builder("Mannmuster", "Blumen").build();
+        Article dummy3 = new Article.Builder("Author0", "Article0 bitcoin").build();
+        Article dummy4 = new Article.Builder("Author1", "Article1 bitcoin").build();
+        Article dummy5 = new Article.Builder("Mustermann", "Bitcoin to the moooooon").build();
+        Article dummy6 = new Article.Builder("Mannmuster", "Blumen").build();  //nix bitcoin
 
         dummyList.add(dummy1);
         dummyList.add(dummy2);

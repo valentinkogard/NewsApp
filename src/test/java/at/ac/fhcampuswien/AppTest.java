@@ -49,12 +49,12 @@ public class AppTest {
     @DisplayName("setArticlesTest1")
     public void setArticlesTest1() throws NoSuchFieldException {
         List<Article> refList = new ArrayList<>();
-        refList.add(new Article("Author0", "Article0"));
-        refList.add(new Article("Author1", "Article1"));
-        refList.add(new Article("Author2", "Article2"));
-        refList.add(new Article("Author3", "Article3"));
+        refList.add(new Article.Builder("Author0", "Article0").build());
+        refList.add(new Article.Builder("Author1", "Article1").build());
+        refList.add(new Article.Builder("Author2", "Article2").build());
+        refList.add(new Article.Builder("Author3", "Article3").build());
 
-        AppController appController = new AppController();
+        AppController appController = AppController.getInstance();
         appController.setArticles(refList);
 
         Field field = AppController.class.getDeclaredField("articles");
@@ -75,7 +75,7 @@ public class AppTest {
     public void setArticlesTest2() throws NoSuchFieldException {
         List<Article> refList = null;
 
-        AppController appController = new AppController();
+        AppController appController = AppController.getInstance();
         appController.setArticles(refList);
 
         Field field = AppController.class.getDeclaredField("articles");
@@ -95,12 +95,12 @@ public class AppTest {
     @DisplayName("getArticlesCountTest1")
     public void getArticleCountTest() {
         List<Article> refList = new ArrayList<>();
-        AppController appController = new AppController();
+        AppController appController = AppController.getInstance();
         appController.setArticles(refList);
 
         for (int i = 0; i <= 10; i++) {
             assertEquals(refList.size(), appController.getArticleCount());
-            refList.add(new Article("Article", "Author"));
+            refList.add(new Article.Builder("Article", "Author").build());
             appController.setArticles(refList);
         }
     }
@@ -109,7 +109,7 @@ public class AppTest {
     @DisplayName("getArticleCountTest2")
     public void getArticleCountTest2() {
         List<Article> refList = null;
-        AppController appController = new AppController();
+        AppController appController = AppController.getInstance();
         appController.setArticles(refList);
 
         assertEquals(0, appController.getArticleCount());
@@ -119,8 +119,8 @@ public class AppTest {
     @DisplayName("getTopHeadlinesAustriaTest1")
     public void getTopHeadlinesAustriaTest1() throws IOException {
         List<Article> refList = new ArrayList<>();
-        refList.add(new Article("Article", "Author"));
-        AppController appController = new AppController();
+        refList.add(new Article.Builder("Article", "Author").build());
+        AppController appController = AppController.getInstance();
         appController.setArticles(refList);
 
         assertEquals(refList, appController.getArticles());
@@ -130,7 +130,7 @@ public class AppTest {
     @DisplayName("getTopHeadlinesAustriaTest2")
     public void getTopHeadlinesAustriaTest2() throws IOException {
         List<Article> refList = null;
-        AppController appController = new AppController();
+        AppController appController = AppController.getInstance();
         appController.setArticles(refList);
 
         assertEquals(null, appController.getArticles());
@@ -140,18 +140,18 @@ public class AppTest {
     @DisplayName("getAllNewsBitcoinTest1")
     public void getAllNewsBitcoinTest1() throws IOException {
         List<Article> refList = new ArrayList<>();
-        refList.add(new Article("Author0", "Article0 bitcoin"));
-        refList.add(new Article("Author1", "Article1"));
-        refList.add(new Article("Author2", "Article2"));
-        refList.add(new Article("Author3", "Article3 bitcoin"));
+        refList.add(new Article.Builder("Author0", "Article0 bitcoin").build());
+        refList.add(new Article.Builder("Author1", "Article1").build());
+        refList.add(new Article.Builder("Author2", "Article2").build());
+        refList.add(new Article.Builder("Author3", "Article3 bitcoin").build());
 
 
         List<Article> onlyBitcoinNews = new ArrayList<>();
-        onlyBitcoinNews.add(new Article("Author0", "Article0 bitcoin"));
-        onlyBitcoinNews.add(new Article("Author3", "Article3 bitcoin"));
+        onlyBitcoinNews.add(new Article.Builder("Author0", "Article0 bitcoin").build());
+        onlyBitcoinNews.add(new Article.Builder("Author3", "Article3 bitcoin").build());
         NewsResponse nr = new NewsResponse("ok", 2, onlyBitcoinNews);
 
-        AppController appController = new AppController();
+        AppController appController = AppController.getInstance();
         appController.setArticles(refList);
 
         List<Article> bitcoinList = nr.getArticles();
@@ -163,14 +163,14 @@ public class AppTest {
     @DisplayName("BitcoinNewsTest2")
     public void getAllNewsBitcoinTest2(){
         List<Article> refList = new ArrayList<>();
-        refList.add(new Article("Author1", "Article1"));
-        refList.add(new Article("Author2", "Article2"));
+        refList.add(new Article.Builder("Author1", "Article1").build());
+        refList.add(new Article.Builder("Author2", "Article2").build());
 
         List<Article> onlyBitcoinNews = new ArrayList<>();
         //don't add objects to onlyBitcoinNews
         NewsResponse nr = new NewsResponse("ok", 2, onlyBitcoinNews);
 
-        AppController appController = new AppController();
+        AppController appController = AppController.getInstance();
         appController.setArticles(refList);
 
         List<Article> bitcoinList = nr.getArticles();
@@ -184,10 +184,10 @@ public class AppTest {
         String wordToSearch = "test";
 
         List<Article> refList = new ArrayList<>();
-        refList.add(new Article("Author0", "Article0 test"));
-        refList.add(new Article("Author1", "Article1"));
-        refList.add(new Article("Author2", "Article2"));
-        refList.add(new Article("Author3", "Article3 test"));
+        refList.add(new Article.Builder("Author0", "Article0 test").build());
+        refList.add(new Article.Builder("Author1", "Article1").build());
+        refList.add(new Article.Builder("Author2", "Article2").build());
+        refList.add(new Article.Builder("Author3", "Article3 test").build());
 
         List<Article> refListFiltered = new ArrayList<>();
         for(Article i : refList){
@@ -196,7 +196,7 @@ public class AppTest {
             }
         }
 
-        AppController appController = new AppController();
+        AppController appController = AppController.getInstance();
         appController.setArticles(refList);
 
         List<Article> filteredList = AppController.filterList(wordToSearch, refList);
@@ -210,10 +210,10 @@ public class AppTest {
         String wordToSearch = "abc";
 
         List<Article> refList = new ArrayList<>();
-        refList.add(new Article("Author0", "Article0"));
-        refList.add(new Article("Author1", "Article1 abc test"));
-        refList.add(new Article("Author2", "Article2"));
-        refList.add(new Article("Author3", "Article3 test"));
+        refList.add(new Article.Builder("Author0", "Article0").build());
+        refList.add(new Article.Builder("Author1", "Article1 abc test").build());
+        refList.add(new Article.Builder("Author2", "Article2").build());
+        refList.add(new Article.Builder("Author3", "Article3 test").build());
 
         List<Article> refListFiltered = new ArrayList<>();
         for(Article i : refList){
@@ -222,7 +222,7 @@ public class AppTest {
             }
         }
 
-        AppController appController = new AppController();
+        AppController appController = AppController.getInstance();
         appController.setArticles(refList);
 
         List<Article> filteredList = AppController.filterList(wordToSearch, refList);
@@ -244,17 +244,17 @@ public class AppTest {
 
         List<Article> refList = new ArrayList<>();
 
-        Source commonSource = new Source("STANDARD");
-        Source otherSource = new Source("other");
+        Source commonSource = new Source.Builder().name("STANDARD").build();
+        Source otherSource = new Source.Builder().name("other").build();
 
-        refList.add(new Article(commonSource));
-        refList.add(new Article(commonSource));
-        refList.add(new Article(otherSource));
-        refList.add(new Article(commonSource));
-        refList.add(new Article(otherSource));
-        refList.add(new Article(commonSource));
+        refList.add(new Article.Builder("", "").source(commonSource).build());
+        refList.add(new Article.Builder("", "").source(commonSource).build());
+        refList.add(new Article.Builder("", "").source(otherSource).build());
+        refList.add(new Article.Builder("", "").source(commonSource).build());
+        refList.add(new Article.Builder("", "").source(otherSource).build());
+        refList.add(new Article.Builder("", "").source(commonSource).build());
 
-        String receivedSolution = new StreamFilters().sourceWithMostArticles(refList);
+        String receivedSolution = StreamFilters.getInstance().sourceWithMostArticles(refList);
 
         assertEquals(commonSource.getName(), receivedSolution);
     }
@@ -267,12 +267,12 @@ public class AppTest {
 
         String longestName = "Maximilian Mustermann";
 
-        refList.add(new Article(longestName, "title"));
-        refList.add(new Article("Author100", "title"));
-        refList.add(new Article("Author2", "title"));
-        refList.add(new Article("Author30000000", "title"));
+        refList.add(new Article.Builder(longestName, "title").build());
+        refList.add(new Article.Builder("Author100", "title").build());
+        refList.add(new Article.Builder("Author2", "title").build());
+        refList.add(new Article.Builder("Author30000000", "title").build());
 
-        String receivedSolution = new StreamFilters().authorWithLongestName(refList);
+        String receivedSolution = StreamFilters.getInstance().authorWithLongestName(refList);
 
         assertEquals(longestName, receivedSolution);
     }
@@ -283,18 +283,18 @@ public class AppTest {
 
         List<Article> refList = new ArrayList<>();
 
-        Source nyt = new Source("New York Times");
-        Source something = new Source("something");
+        Source nyt = new Source.Builder().name("New York Times").build();
+        Source something = new Source.Builder().name("something").build();
 
-        refList.add(new Article(nyt));
-        refList.add(new Article(something));
-        refList.add(new Article(nyt));
-        refList.add(new Article(nyt));
-        refList.add(new Article(something));
-        refList.add(new Article(nyt));
-        refList.add(new Article(something)); //4 articles from Reuters
+        refList.add(new Article.Builder("", "").source(nyt).build());
+        refList.add(new Article.Builder("", "").source(something).build());
+        refList.add(new Article.Builder("", "").source(nyt).build());
+        refList.add(new Article.Builder("", "").source(nyt).build());
+        refList.add(new Article.Builder("", "").source(something).build());
+        refList.add(new Article.Builder("", "").source(nyt).build());
+        refList.add(new Article.Builder("", "").source(something).build()); //4 articles from Reuters
 
-        long receivedSolution = new StreamFilters().numberOfArticlesNyt(refList);
+        long receivedSolution = StreamFilters.getInstance().numberOfArticlesNyt(refList);
 
         assertEquals(4, receivedSolution);
     }
@@ -308,20 +308,20 @@ public class AppTest {
         String headlineSub15 = "Random";
         String headlineOver15 = "This is a random headline written just to test a function I think we are long enough";
 
-        Article articleSub15 = new Article("Author", headlineSub15);
-        Article articleSub152 = new Article("Author", headlineSub15);
+        Article articleSub15 = new Article.Builder("Author", headlineSub15).build();
+        Article articleSub152 = new Article.Builder("Author", headlineSub15).build();
 
         refList.add(articleSub15);
-        refList.add(new Article("Author", headlineOver15));
+        refList.add(new Article.Builder("Author", headlineOver15).build());
         refList.add(articleSub152);
-        refList.add(new Article("Author", headlineOver15));
+        refList.add(new Article.Builder("Author", headlineOver15).build());
 
         List<Article> expectedList = new ArrayList<>();
 
         expectedList.add(articleSub15);
         expectedList.add(articleSub152);
 
-        List<Article> receivedSolution = new StreamFilters().articlesWithHeadlineSub15CharsList(refList);
+        List<Article> receivedSolution = StreamFilters.getInstance().articlesWithHeadlineSub15CharsList(refList);
 
         assertEquals(expectedList, receivedSolution);
     }
@@ -334,7 +334,7 @@ public class AppTest {
 
         String headlineOver15 = "This is a random headline written just to test a function I think we are long enough";
 
-        Article articleOver15 = new Article("Author", headlineOver15);
+        Article articleOver15 = new Article.Builder("Author", headlineOver15).build();
 
         refList.add(articleOver15);
         refList.add(articleOver15);
@@ -343,7 +343,7 @@ public class AppTest {
 
         List<Article> expectedList = new ArrayList<>();
 
-        List<Article> receivedSolution = new StreamFilters().articlesWithHeadlineSub15CharsList(refList);
+        List<Article> receivedSolution = StreamFilters.getInstance().articlesWithHeadlineSub15CharsList(refList);
 
         assertEquals(expectedList, receivedSolution);
     }
@@ -354,9 +354,9 @@ public class AppTest {
 
         List<Article> refList = new ArrayList<>();
 
-        Article article1 = new Article("Author1", "Title1", "Short");
-        Article article2 = new Article("Author2", "Title2", "Average");
-        Article article3 = new Article("Author3", "Title3", "Very Long Description");
+        Article article1 = new Article.Builder("Author1", "Title1").description("Short").build();
+        Article article2 = new Article.Builder("Author2", "Title2").description("Average").build();
+        Article article3 = new Article.Builder("Author3", "Title3").description("Very Long Description").build();
 
         refList.add(article2);
         refList.add(article3);
@@ -368,7 +368,7 @@ public class AppTest {
         expectedList.add(article2);
         expectedList.add(article3);
 
-        List<Article> receivedSolution = new StreamFilters().articlesSortedByLengthThenAlphabetically(refList);
+        List<Article> receivedSolution = StreamFilters.getInstance().articlesSortedByLengthThenAlphabetically(refList);
 
         assertEquals(expectedList, receivedSolution);
     }
@@ -379,11 +379,11 @@ public class AppTest {
 
         List<Article> refList = new ArrayList<>();
 
-        Article article1 = new Article("Author1", "Title1", "Short");
-        Article article2 = new Article("Author2", "Title2", "Average");
-        Article article3 = new Article("Author3", "Title3", "Very Long Description");
-        Article article4 = new Article("Author4", "Title4", "Aery Long Description");
-        Article article5 = new Article("Author5", "Title5", "Bery Long Description");
+        Article article1 = new Article.Builder("Author1", "Title1").description("Short").build();
+        Article article2 = new Article.Builder("Author2", "Title2").description("Average").build();
+        Article article3 = new Article.Builder("Author3", "Title3").description("Very Long Description").build();
+        Article article4 = new Article.Builder("Author4", "Title4").description("Aery Long Description").build();
+        Article article5 = new Article.Builder("Author5", "Title5").description("Bery Long Description").build();
 
         refList.add(article4);
         refList.add(article2);
@@ -399,21 +399,8 @@ public class AppTest {
         expectedList.add(article5);
         expectedList.add(article3);
 
-        List<Article> receivedSolution = new StreamFilters().articlesSortedByLengthThenAlphabetically(refList);
+        List<Article> receivedSolution = StreamFilters.getInstance().articlesSortedByLengthThenAlphabetically(refList);
 
         assertEquals(expectedList, receivedSolution);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

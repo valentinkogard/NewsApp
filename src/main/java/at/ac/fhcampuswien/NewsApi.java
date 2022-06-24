@@ -14,6 +14,16 @@ public class NewsApi {
 
     private static final String key = "be9de4191f3745f1bbad19153c6ca440"; //hab selber noch einen key geholt
     private String requestedUrl;
+    private static NewsApi instance = null;
+
+    private NewsApi(){};
+
+    public static NewsApi getInstance(){
+        if(instance == null){
+            instance = new NewsApi();
+        }
+        return instance;
+    }
 
     public void setRequestedUrl(String requestedUrl) {
         this.requestedUrl = requestedUrl;
