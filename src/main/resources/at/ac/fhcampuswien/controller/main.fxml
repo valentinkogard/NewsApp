@@ -23,7 +23,7 @@
          <children>
             <ImageView fitHeight="52.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@newsIcon.png" />
+                  <Image url="@../newsIcon.png" />
                </image>
             </ImageView>
             <Region prefHeight="52.0" prefWidth="181.0" />

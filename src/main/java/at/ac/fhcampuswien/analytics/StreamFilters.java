@@ -1,6 +1,8 @@
-package at.ac.fhcampuswien;
+package at.ac.fhcampuswien.analytics;
 
-import java.lang.reflect.Array;
+import at.ac.fhcampuswien.articleStructure.Article;
+import at.ac.fhcampuswien.articleStructure.Source;
+
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;

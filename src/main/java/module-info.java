@@ -14,4 +14,12 @@ module at.ac.fhcampuswien{
     opens at.ac.fhcampuswien.enumparams to com.google.gson, javafx.fxml;
     exports at.ac.fhcampuswien.publisher;
     opens at.ac.fhcampuswien.publisher to com.google.gson, javafx.fxml;
+    exports at.ac.fhcampuswien.news;
+    opens at.ac.fhcampuswien.news to com.google.gson, javafx.fxml;
+    exports at.ac.fhcampuswien.articleStructure;
+    opens at.ac.fhcampuswien.articleStructure to com.google.gson, javafx.fxml;
+    exports at.ac.fhcampuswien.analytics;
+    opens at.ac.fhcampuswien.analytics to com.google.gson, javafx.fxml;
+    exports at.ac.fhcampuswien.controller;
+    opens at.ac.fhcampuswien.controller to com.google.gson, javafx.fxml;
 }

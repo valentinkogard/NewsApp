@@ -1,15 +1,14 @@
-package at.ac.fhcampuswien;
+package at.ac.fhcampuswien.controller;
 
-import at.ac.fhcampuswien.downloader.Downloader;
-import at.ac.fhcampuswien.downloader.MainDownload;
-import at.ac.fhcampuswien.downloader.ParallelDownloader;
-import at.ac.fhcampuswien.downloader.SequentialDownloader;
+import at.ac.fhcampuswien.articleStructure.Article;
+import at.ac.fhcampuswien.articleStructure.Source;
 import at.ac.fhcampuswien.enumparams.*;
+import at.ac.fhcampuswien.news.NewsApi;
+import at.ac.fhcampuswien.news.NewsApiException;
+import at.ac.fhcampuswien.news.NewsResponse;
 
 import java.util.*;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class AppController {
 
@@ -211,7 +210,7 @@ public class AppController {
      * @param articles
      * @return
      */
-    protected static List<Article> filterList (String query, List<Article> articles) {
+    public static List<Article> filterList (String query, List<Article> articles) {
         //filter list for specified query...
         List<Article> filteredList = new ArrayList<>();
 

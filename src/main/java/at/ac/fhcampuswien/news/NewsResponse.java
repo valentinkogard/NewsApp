@@ -1,8 +1,7 @@
-package at.ac.fhcampuswien;
+package at.ac.fhcampuswien.news;
 
-import com.google.gson.Gson;
+import at.ac.fhcampuswien.articleStructure.Article;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 

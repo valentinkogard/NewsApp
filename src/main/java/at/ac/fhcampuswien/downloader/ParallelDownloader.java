@@ -1,7 +1,6 @@
 package at.ac.fhcampuswien.downloader;
 
-import at.ac.fhcampuswien.NewsApiException;
-import okhttp3.Call;
+import at.ac.fhcampuswien.news.NewsApiException;
 
 import java.util.ArrayList;
 import java.util.List;

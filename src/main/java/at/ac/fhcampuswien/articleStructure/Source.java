@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien;
+package at.ac.fhcampuswien.articleStructure;
 
 public class Source {
     private String id;

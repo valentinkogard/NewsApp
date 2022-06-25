@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien;
+package at.ac.fhcampuswien.news;
 
 public class NewsApiException extends Exception{
 

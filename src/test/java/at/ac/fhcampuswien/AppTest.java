@@ -1,5 +1,10 @@
 package at.ac.fhcampuswien;
 
+import at.ac.fhcampuswien.analytics.StreamFilters;
+import at.ac.fhcampuswien.articleStructure.Article;
+import at.ac.fhcampuswien.articleStructure.Source;
+import at.ac.fhcampuswien.controller.AppController;
+import at.ac.fhcampuswien.news.NewsResponse;
 import org.junit.jupiter.api.*;
 import java.io.*;
 import java.lang.reflect.Field;

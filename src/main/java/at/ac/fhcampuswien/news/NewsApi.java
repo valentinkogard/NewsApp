@@ -1,7 +1,6 @@
-package at.ac.fhcampuswien;
+package at.ac.fhcampuswien.news;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 
 import at.ac.fhcampuswien.enumparams.Endpoint;
 import okhttp3.OkHttpClient;

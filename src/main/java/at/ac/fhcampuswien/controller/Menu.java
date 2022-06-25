@@ -1,9 +1,12 @@
-package at.ac.fhcampuswien;
+package at.ac.fhcampuswien.controller;
 
 import at.ac.fhcampuswien.downloader.MainDownload;
 import at.ac.fhcampuswien.enumparams.Category;
 import at.ac.fhcampuswien.enumparams.Endpoint;
 import at.ac.fhcampuswien.enumparams.Sortby;
+import at.ac.fhcampuswien.news.NewsApiException;
+import at.ac.fhcampuswien.publisher.Channel;
+import at.ac.fhcampuswien.publisher.Subscriber;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,9 +25,8 @@ import java.util.List;
 
 public class Menu extends Application {
 
-    private final AppController controller = AppController.getInstance();
-    private static final String INVALID_INPUT_MESSAGE = "Invalid input! Please enter an existing option!";
-    private static final String EXIT_MESSAGE = "Bye bye!";
+    private final Channel channel = Channel.getInstance();
+    private final Subscriber subscriber = new Subscriber();
 
     @FXML protected Label label;
     @FXML protected CheckBox cb;
@@ -44,10 +46,15 @@ public class Menu extends Application {
     @FXML protected Text countryLabel;
     @FXML protected Text qLabel;
 
+    {
+        channel.subscriber(subscriber);
+        channel.setMenu(this);
+    }
+
     @Override
     public void start(Stage stage) {
-        //!!!!!!!!!!!!!!!!!SINGELTON???????!!!!!!!!!!!!!!!!1
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("main.fxml"));
+        //!!!!!!!!!!!!!!!!!SINGELTON???????!!!!!!!!!!!!!!!!
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("main.fxml"));
         Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load());
@@ -179,20 +186,20 @@ public class Menu extends Application {
         });
     }
 
-    private void setOutputText(String text){
+    public void setOutputText(String text){
         label.setText("");
         label.setText(text);
     }
 
-    public void handleInput(String input){
+    private void handleInput(String input){
         try {
             switch (input.charAt(0)) {
-                case 'a' -> getTopHeadlinesAustria(controller);
-                case 'b' -> getAllNewsBitcoin(controller);
-                case 'y' -> getArticleCount(controller);
-                case 'q' -> printExitMessage();
-                case 'g' -> getCustomHeadlines(controller);
-                default -> printInvalidInputMessage();
+                case 'a' -> Actions.getInstance().getTopHeadlinesAustria();
+                case 'b' -> Actions.getInstance().getAllNewsBitcoin();
+                case 'y' -> Actions.getInstance().getArticleCount();
+                case 'q' -> Actions.getInstance().printExitMessage();
+                case 'g' -> Actions.getInstance().getCustomHeadlines(this);
+                default -> Actions.getInstance().printInvalidInputMessage();
             }
             MainDownload.getInstance().measureTimeOfDownload();
         } catch (NewsApiException e) {
@@ -200,74 +207,5 @@ public class Menu extends Application {
         } catch (Exception e) {
             setOutputText("Something went wrong\n" + e.getMessage());
         }
-    }
-
-    private void getArticleCount(AppController ctrl) throws NewsApiException {
-        int count = ctrl.getArticles().size();
-        List<Article> articleList = ctrl.getArticles();
-        StreamFilters streamFilter = StreamFilters.getInstance();
-        try{
-            setOutputText("Number of articles: " + count + "\n" +
-                    "Most articles provided by: " + streamFilter.sourceWithMostArticles(articleList) + "\n" +
-                    "Author with longest name: " + streamFilter.authorWithLongestName(articleList) + "\n" +
-                    "Number of articles by NYT: " + streamFilter.numberOfArticlesNyt(articleList) + "\n" +
-                    "Number of articles with headlines less than 15 characters: " + streamFilter.articlesWithHeadlineSub15Chars(articleList) + "\n" +
-                    "Headlines with less than 15 characters: " + formatOutput(streamFilter.articlesWithHeadlineSub15CharsList(articleList)));
-        } catch (NullPointerException e){
-            throw new NewsApiException("Request articles before use this operation");
-        }
-    }
-
-    private void getTopHeadlinesAustria(AppController ctrl) throws NewsApiException {
-        List<Article> articles = ctrl.getTopHeadlinesAustria().getArticles();
-        setOutputText(formatOutput(articles));
-        ctrl.setArticles(articles);
-    }
-
-    private void getAllNewsBitcoin(AppController ctrl) throws NewsApiException {
-        List<Article> articles = ctrl.getAllNewsBitcoin().getArticles();
-        setOutputText(formatOutput(StreamFilters.getInstance().articlesSortedByLengthThenAlphabetically(articles)));
-        ctrl.setArticles(articles);
-    }
-
-    public void getCustomHeadlines(AppController ctrl) throws NewsApiException {
-        List<Article> articles = ctrl.getCustomHeadlines(this).getArticles();
-        setOutputText(formatOutput(articles));
-        ctrl.setArticles(articles);
-    }
-
-    private String formatOutput(List<Article> list){
-        String text = "";
-        try {
-            for(int i = 0; i < list.size(); i++) {
-                text += "\n";
-                text += list.get(i);
-                text += list.get(i).getDescription();
-                text += "\n";
-            }
-        } catch (NullPointerException n) {
-            n.getMessage();
-        }
-        return text;
-    }
-
-    private static void printExitMessage() {
-        System.out.println(EXIT_MESSAGE);
-        System.exit(0);
-    }
-
-    private static void printInvalidInputMessage() {
-        System.out.println(INVALID_INPUT_MESSAGE);
-    }
-
-    private static void printMenu(){
-        System.out.print("****************************** \n" +
-                "*  Welcome to NewsApp  * \n" +
-                "****************************** \n" +
-                "Enter what you want to do: \n"+
-                "a: Get top headlines Austria \n"+
-                "b: Get all news about bitcoin \n"+
-                "y: Count articles \n"+
-                "q: quit program\n");
     }
 }

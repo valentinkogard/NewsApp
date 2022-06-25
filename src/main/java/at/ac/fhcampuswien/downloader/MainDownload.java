@@ -1,8 +1,8 @@
 package at.ac.fhcampuswien.downloader;
 
-import at.ac.fhcampuswien.AppController;
-import at.ac.fhcampuswien.Article;
-import at.ac.fhcampuswien.NewsApiException;
+import at.ac.fhcampuswien.controller.AppController;
+import at.ac.fhcampuswien.articleStructure.Article;
+import at.ac.fhcampuswien.news.NewsApiException;
 
 import java.util.ArrayList;
 import java.util.List;
