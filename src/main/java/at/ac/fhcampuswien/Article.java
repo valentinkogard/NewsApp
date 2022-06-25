@@ -67,6 +67,14 @@ public class Article {
         }
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public String getUrlToImage() {
+        return urlToImage;
+    }
+
     public Source getSource() {
         return source;
     }
