@@ -7,6 +7,10 @@ import java.util.List;
 // Class is needed for exercise 4 - ignore for exercise 3 solution
 public class SequentialDownloader extends Downloader {
 
+    private static SequentialDownloader instance = null;
+
+    public SequentialDownloader(){}
+
     // returns number of downloaded article urls
     @Override
     public int process(List<String> urls) throws NewsApiException{

@@ -1,6 +1,7 @@
 package at.ac.fhcampuswien;
 
 import at.ac.fhcampuswien.downloader.Downloader;
+import at.ac.fhcampuswien.downloader.MainDownload;
 import at.ac.fhcampuswien.downloader.ParallelDownloader;
 import at.ac.fhcampuswien.downloader.SequentialDownloader;
 import at.ac.fhcampuswien.enumparams.*;
@@ -57,63 +58,14 @@ public class AppController {
         newsApi.deserializeArticles(receivedJson);
 
         NewsResponse newsResponse = newsApi.deserializeArticles(receivedJson);
-
         setArticles(newsResponse.getArticles());
 
-        SequentialDownloader sequentialDownloader = new SequentialDownloader();
-        long startTimeSequential = System.nanoTime();
-        int numOfDownloadsSequential = downloadURLs(sequentialDownloader);
-        long endTimeSequential = System.nanoTime();
-        System.out.println("Sequential download of "+numOfDownloadsSequential+" sites finished in approximately "+((endTimeSequential-startTimeSequential) / 1000000)+" milliseconds");
-
-        startTimeSequential=System.nanoTime();
-        int imageDownloadsSequential = downloadImageUrls(sequentialDownloader);
-        endTimeSequential = System.nanoTime();
-        System.out.println("Sequential download of "+imageDownloadsSequential+" images finished in approximately "+((endTimeSequential-startTimeSequential) / 1000000)+" milliseconds");
-
-
-        ParallelDownloader parallelDownloader = new ParallelDownloader();
-        long startTimeParallel = System.nanoTime();
-        int numOfDownloadsParallel = downloadURLs(parallelDownloader);
-        long endTimeParallel = System.nanoTime();
-        System.out.println("Parallel download of "+numOfDownloadsParallel+" finished in approximately "+((endTimeParallel-startTimeParallel) / 1000000)+" milliseconds");
-
-        startTimeParallel=System.nanoTime();
-        int imageDownloadsParallel = downloadImageUrls(parallelDownloader);
-        endTimeParallel = System.nanoTime();
-        System.out.println("Parallel download of "+imageDownloadsSequential+" images finished in approximately "+((endTimeParallel-startTimeParallel) / 1000000)+" milliseconds");
-
-        //downloadURLs();
-
+        //MainDownload.getInstance().measureTimeOfDownload();
 
         if(newsResponse.getArticles().size() == 0){
             throw new NewsApiException("No articles available");
         }
         return newsResponse;
-    }
-
-    private void downloadURLs() {
-        try {
-            long startTimeSequential = System.nanoTime();
-            int numOfDownloadsSequential = downloadURLs(new SequentialDownloader());
-            long endTimeSequential = System.nanoTime();
-            System.out.println("Sequential download finished in approximately "+((endTimeSequential-startTimeSequential) / 1000000)+" milliseconds");
-
-            // TODO print time in ms it took to download URLs sequentially
-
-            // TODO implement the process() function in ParallelDownloader class
-            long startTimeParallel = System.nanoTime();
-            int numOfDownloadsParallel = downloadURLs(new ParallelDownloader());
-            long endTimeParallel = System.nanoTime();
-            System.out.println("Parallel download finished in approximately "+((endTimeParallel-startTimeParallel) / 1000000)+" milliseconds");
-            // TODO print time in ms it took to download URLs parallel
-
-            //System.out.println(numOfDownloadsSequential);
-            System.out.println(numOfDownloadsParallel);
-
-        } catch (NewsApiException e){
-            System.out.println(e.getMessage());
-        }
     }
 
     /**
@@ -129,7 +81,6 @@ public class AppController {
         newsApi.deserializeArticles(receivedJson);
 
         NewsResponse newsResponse = newsApi.deserializeArticles(receivedJson);
-
         setArticles(newsResponse.getArticles());
         //downloadURLs();
 
@@ -297,35 +248,5 @@ public class AppController {
         dummyList.add(dummy6);
 
         return dummyList;
-    }
-
-    // returns number of downloaded article urls
-    public int downloadURLs(Downloader downloader) throws NewsApiException{
-        if( articles == null) {
-            throw new NewsApiException("Error: No list of articles instantiated.");
-        }
-
-        List<String> urls = new ArrayList<>();
-        urls = articles.stream()
-                .filter(articles -> Objects.nonNull(articles.getUrl()))
-                .map(Article::getUrl)
-                .collect(Collectors.toList());
-
-        return downloader.process(urls);
-    }
-
-    public int downloadImageUrls(Downloader downloader) throws NewsApiException {
-
-        if( articles == null) {
-            throw new NewsApiException("Error: No list of articles instantiated.");
-        }
-
-        List<String> imageUrls = new ArrayList<>();
-        imageUrls = articles.stream()
-                .filter(articles -> Objects.nonNull((articles.getUrlToImage())))
-                .map(Article::getUrlToImage)
-                .collect(Collectors.toList());
-
-        return downloader.process(imageUrls);
     }
 }

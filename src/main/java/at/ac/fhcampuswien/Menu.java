@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien;
 
+import at.ac.fhcampuswien.downloader.MainDownload;
 import at.ac.fhcampuswien.enumparams.Category;
 import at.ac.fhcampuswien.enumparams.Endpoint;
 import at.ac.fhcampuswien.enumparams.Sortby;
@@ -193,6 +194,7 @@ public class Menu extends Application {
                 case 'g' -> getCustomHeadlines(controller);
                 default -> printInvalidInputMessage();
             }
+            MainDownload.getInstance().measureTimeOfDownload();
         } catch (NewsApiException e) {
             setOutputText(e.getMessage());
         } catch (Exception e) {

@@ -11,15 +11,15 @@ import java.util.concurrent.*;
 public class ParallelDownloader extends Downloader implements Callable {
 
     private List<String> urlsString;
+    //private static ParallelDownloader instance = null;
 
     public ParallelDownloader (List<String> urlsString) {
         this.urlsString=urlsString;
     }
-
-    public ParallelDownloader() {};
+    public ParallelDownloader(){}
 
     @Override
-    public Integer call() throws Exception {
+    public Integer call() throws NewsApiException {
 
         int count = 0;
         for (String url : this.urlsString) {
@@ -39,39 +39,35 @@ public class ParallelDownloader extends Downloader implements Callable {
 
     // returns number of downloaded article urls
     @Override
-    public int process(List<String> urls) {
+    public int process(List<String> urls) throws NewsApiException {
         // TODO implement download function using multiple threads
         // Hint: use ExecutorService with Callables
-        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        int numOfThreads = 5;
+        ExecutorService executorService = Executors.newFixedThreadPool(numOfThreads);
 
-        List<String> subList1 = new ArrayList<>();
-        List<String> subList2 = new ArrayList<>();
-
-        for(int i=0; i<urls.size(); i++) {
-            if(i%2==0) {
-                subList1.add(urls.get(i));
-            } else {
-                subList2.add(urls.get(i));
+        List<Future<Integer>> results = new ArrayList<>();
+        for(int i = 0, bottom = 0, top = 0; i < numOfThreads; i++){
+            top += Math.ceil(urls.size()/numOfThreads);
+            if(top > urls.size()){
+                top = urls.size();
             }
+            results.add(executorService.submit(new ParallelDownloader(urls.subList(bottom, top))));
+            bottom = top;
         }
 
-        Future<Integer> result1 = executorService.submit(new ParallelDownloader(subList1));
-        Future<Integer> result2 = executorService.submit(new ParallelDownloader(subList2));
-
-        int a = 0;
-        int b = 0;
-
+        int sum = 0;
         try {
-            a = result1.get();
-            b = result2.get();
-        } catch (InterruptedException ie) {
-            ie.getMessage();
-        } catch (ExecutionException ee) {
-            ee.getMessage();
+            for(Future<Integer> i : results){
+                sum += i.get();
+            }
+        } catch (InterruptedException e) {
+            throw new NewsApiException("InterruptedException: " + e.getMessage());
+        } catch (ExecutionException e) {
+            throw new NewsApiException("ExecutionException: " + e.getMessage());
+        } catch (Exception e) {
+            throw new NewsApiException("general Exception: " + e.getMessage());
         }
-
         executorService.shutdown();
-
-        return a+b;
+        return sum;
     }
 }
