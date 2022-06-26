@@ -53,7 +53,6 @@ public class Menu extends Application {
 
     @Override
     public void start(Stage stage) {
-        //!!!!!!!!!!!!!!!!!SINGELTON???????!!!!!!!!!!!!!!!!
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("main.fxml"));
         Scene scene = null;
         try {

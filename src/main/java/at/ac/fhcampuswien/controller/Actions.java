@@ -14,12 +14,14 @@ public class Actions {
     private static final String EXIT_MESSAGE = "Bye bye!";
     private final AppController ctrl = AppController.getInstance();
     private static Actions instance = null;
-    private static final Channel channel = Channel.getInstance();
-    private static final Subscriber subscriber = new Subscriber();
+    private final Channel channel = Channel.getInstance();
+    //private final Subscriber subscriber = new Subscriber();
 
-    static {
+    /*
+    {
         channel.subscriber(subscriber);
     }
+     */
 
     private Actions(){}
 
