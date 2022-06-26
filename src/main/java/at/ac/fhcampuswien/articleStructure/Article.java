@@ -35,8 +35,6 @@ public class Article {
         public Builder(String author, String title){
             this.author = author;
             this.title = title;
-            this.source = source;
-            this.publishedAt = publishedAt;
         }
         public Builder source(Source source){
             this.source = source;

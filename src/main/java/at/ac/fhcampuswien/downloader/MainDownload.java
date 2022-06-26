@@ -31,22 +31,13 @@ public class MainDownload {
             public void run() {
                 try {
                     sequentialDownload();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
                     parallelDownload();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }).start();
+
     }
 
     private void sequentialDownload() throws NewsApiException {
@@ -68,7 +59,7 @@ public class MainDownload {
         long startTimeParallel = System.nanoTime();
         int numOfDownloadsParallel = downloadURLs(parallelDownloader);
         long endTimeParallel = System.nanoTime();
-        System.out.println("Parallel download of " + numOfDownloadsParallel + " finished in approximately "+((endTimeParallel-startTimeParallel) / 1000000)+" milliseconds");
+        System.out.println("Parallel download of " + numOfDownloadsParallel + " sites finished in approximately "+((endTimeParallel-startTimeParallel) / 1000000)+" milliseconds");
 
         startTimeParallel=System.nanoTime();
         int imageDownloadsParallel = downloadImageUrls(parallelDownloader);

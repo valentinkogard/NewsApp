@@ -55,16 +55,19 @@ public class ParallelDownloader extends Downloader implements Callable {
         }
 
         int sum = 0;
-        try {
-            for(Future<Integer> i : results){
+        for(Future<Integer> i : results) {
+            try {
                 sum += i.get();
+            } catch (InterruptedException e) {
+                //throw new NewsApiException("InterruptedException: " + e.getMessage());
+                System.out.println(e);
+            } catch (ExecutionException e) {
+                //throw new NewsApiException("ExecutionException: " + e.getMessage());
+                System.out.println(e);
+            } catch (Exception e) {
+                //System.out.println("...");
+                throw new NewsApiException("Different problem occurred in " + this.getClass().getName() + ". Message: " + e.getMessage());
             }
-        } catch (InterruptedException e) {
-            throw new NewsApiException("InterruptedException: " + e.getMessage());
-        } catch (ExecutionException e) {
-            throw new NewsApiException("ExecutionException: " + e.getMessage());
-        } catch (Exception e) {
-            throw new NewsApiException("general Exception: " + e.getMessage());
         }
         executorService.shutdown();
         return sum;

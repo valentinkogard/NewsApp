@@ -22,7 +22,7 @@ public class SequentialDownloader extends Downloader {
                     count++;
             } catch (NewsApiException e){
                 System.err.println(e.getMessage());
-                throw new NewsApiException(e.getMessage());
+                //throw new NewsApiException(e.getMessage());
             } catch (Exception e){
                 throw new NewsApiException("Different problem occurred in " + this.getClass().getName() + ". Message: " + e.getMessage());
             }
